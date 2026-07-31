@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>TGNMOS · 创意官网</title>
+    <title>TGNMOS · 创意作品集</title>
     <!-- 使用 HTTPS 协议引用字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
     <style>
-        /* ===== 全局重置 & 基础 ===== */
+        /* ============================================================
+                   全局重置 & 变量
+                   ============================================================ */
         *,
         *::before,
         *::after {
@@ -20,13 +22,19 @@
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
             --bg-card: #1a1a2e;
+            --bg-input: #1e1e32;
             --text-primary: #f0f0f5;
             --text-secondary: #b0b0c8;
+            --text-muted: #6a6a82;
             --accent: #e8b84b;
-            --accent-glow: rgba(232, 184, 75, 0.25);
+            --accent-glow: rgba(232, 184, 75, 0.2);
+            --accent-dim: rgba(232, 184, 75, 0.08);
             --border-light: rgba(255, 255, 255, 0.06);
             --radius: 16px;
+            --radius-sm: 10px;
             --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         html {
@@ -34,7 +42,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-family);
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -45,12 +53,18 @@
             text-decoration: none;
             color: inherit;
         }
-
         img,
         video {
             max-width: 100%;
             display: block;
-            border-radius: var(--radius);
+            border-radius: var(--radius-sm);
+        }
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
         }
 
         .container {
@@ -59,17 +73,19 @@
             padding: 0 24px;
         }
 
-        /* ===== 导航栏 ===== */
+        /* ============================================================
+                   导航栏
+                   ============================================================ */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 999;
-            padding: 18px 0;
-            background: rgba(10, 10, 15, 0.72);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            padding: 16px 0;
+            background: rgba(10, 10, 15, 0.78);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid var(--border-light);
             transition: var(--transition);
         }
@@ -81,18 +97,22 @@
         }
 
         .logo {
-            font-size: 1.45rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, var(--accent), #d4a02b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .logo span {
             font-weight: 400;
             -webkit-text-fill-color: var(--text-secondary);
-            opacity: 0.6;
+            opacity: 0.5;
+            font-size: 0.9rem;
         }
 
         .nav-links {
@@ -129,7 +149,6 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-
         .nav-links a.active {
             color: var(--accent);
         }
@@ -137,7 +156,7 @@
             width: 100%;
         }
 
-        /* 移动端汉堡菜单 */
+        /* 汉堡菜单 */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -146,6 +165,7 @@
             background: none;
             border: none;
             padding: 4px;
+            z-index: 1000;
         }
         .hamburger span {
             display: block;
@@ -165,7 +185,9 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* ===== Hero 区域 ===== */
+        /* ============================================================
+                   Hero 区域 · 动画字体
+                   ============================================================ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -180,11 +202,23 @@
             position: absolute;
             top: -30%;
             right: -10%;
-            width: 600px;
-            height: 600px;
+            width: 700px;
+            height: 700px;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
         }
 
         .hero .container {
@@ -197,32 +231,80 @@
         }
 
         .hero-content h1 {
-            font-size: 3.6rem;
+            font-size: 3.8rem;
             font-weight: 800;
-            line-height: 1.08;
+            line-height: 1.05;
             letter-spacing: -2px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
+        /* ===== 动画字体 ===== */
         .hero-content h1 .highlight {
-            background: linear-gradient(135deg, var(--accent), #f5d67a);
+            background: linear-gradient(135deg, var(--accent), #f5d67a, var(--accent));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: shimmerText 4s ease-in-out infinite;
+            display: inline-block;
         }
 
-        .hero-content p {
-            font-size: 1.15rem;
+        @keyframes shimmerText {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .hero-content .sub-title {
+            font-size: 1.2rem;
             color: var(--text-secondary);
             max-width: 480px;
             margin-bottom: 32px;
             line-height: 1.8;
+            animation: fadeUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-content .sub-title .accent-text {
+            color: var(--accent);
+            -webkit-text-fill-color: var(--accent);
+            font-weight: 600;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 打字效果装饰 */
+        .typing-decoration {
+            display: inline-block;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(232, 184, 75, 0.15);
+            margin-bottom: 12px;
+            animation: fadeUp 0.6s ease-out 0.1s both;
         }
 
         .hero-buttons {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
+            animation: fadeUp 0.8s ease-out 0.5s both;
         }
 
         .btn {
@@ -244,7 +326,7 @@
         }
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(232, 184, 75, 0.4);
+            box-shadow: 0 12px 44px rgba(232, 184, 75, 0.4);
         }
 
         .btn-outline {
@@ -258,32 +340,27 @@
             transform: translateY(-3px);
         }
 
-        .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .hero-image .img-wrapper {
             width: 100%;
             max-width: 560px;
             aspect-ratio: 4/3;
             border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: var(--shadow-card);
             border: 1px solid var(--border-light);
             background: var(--bg-secondary);
             position: relative;
+            transition: var(--transition);
         }
 
         .hero-image .img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: var(--transition);
             background: var(--bg-primary);
+            transition: var(--transition);
         }
-        .hero-image .img-wrapper img:hover {
+        .hero-image .img-wrapper:hover img {
             transform: scale(1.02);
         }
 
@@ -293,7 +370,7 @@
             left: 0;
             right: 0;
             padding: 6px 14px;
-            background: rgba(10, 10, 15, 0.7);
+            background: rgba(10, 10, 15, 0.75);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             font-size: 0.65rem;
@@ -311,7 +388,7 @@
             height: 10px;
             border-radius: 50%;
             background: #e74c3c;
-            margin-right: 4px;
+            margin-right: 2px;
         }
         .hero-image .img-wrapper .browser-bar .dot:nth-child(2) {
             background: #f1c40f;
@@ -323,14 +400,16 @@
             flex: 1;
             text-align: center;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             font-size: 0.6rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* ===== 作品集 ===== */
+        /* ============================================================
+                   通用 Section
+                   ============================================================ */
         .section {
             padding: 90px 0;
         }
@@ -341,7 +420,7 @@
         }
 
         .section-header h2 {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 800;
             letter-spacing: -1px;
         }
@@ -354,7 +433,24 @@
             font-size: 1.05rem;
         }
 
-        .grid-3 {
+        .section-header .section-badge {
+            display: inline-block;
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(232, 184, 75, 0.12);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================
+                   作品集 · 带点赞 & 评论
+                   ============================================================ */
+        .works-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 28px;
@@ -366,14 +462,14 @@
             overflow: hidden;
             border: 1px solid var(--border-light);
             transition: var(--transition);
-            cursor: pointer;
-            group: true;
+            display: flex;
+            flex-direction: column;
         }
 
         .work-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(232, 184, 75, 0.25);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+            transform: translateY(-6px);
+            border-color: rgba(232, 184, 75, 0.2);
+            box-shadow: var(--shadow-card);
         }
 
         .work-card .img-box {
@@ -381,50 +477,280 @@
             aspect-ratio: 4/3;
             overflow: hidden;
             background: var(--bg-primary);
+            position: relative;
         }
 
         .work-card .img-box img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: var(--transition);
             background: var(--bg-primary);
+            transition: var(--transition);
         }
 
         .work-card:hover .img-box img {
-            transform: scale(1.05);
+            transform: scale(1.04);
         }
 
         .work-card .info {
-            padding: 20px 22px 24px;
+            padding: 18px 20px 16px;
+            flex: 1;
+        }
+
+        .work-card .info .title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         .work-card .info h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            margin-bottom: 4px;
         }
 
-        .work-card .info p {
-            font-size: 0.9rem;
+        .work-card .info .desc {
+            font-size: 0.88rem;
             color: var(--text-secondary);
+            margin-top: 2px;
         }
 
         .work-card .info .tag {
             display: inline-block;
-            margin-top: 10px;
-            font-size: 0.7rem;
+            margin-top: 8px;
+            font-size: 0.65rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             color: var(--accent);
-            background: rgba(232, 184, 75, 0.1);
-            padding: 4px 14px;
+            background: var(--accent-dim);
+            padding: 3px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(232, 184, 75, 0.15);
+            border: 1px solid rgba(232, 184, 75, 0.1);
         }
 
-        /* ===== 视频区 ===== */
+        /* ===== 点赞 & 评论区域 ===== */
+        .work-actions {
+            padding: 12px 20px 18px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .like-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .like-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            padding: 4px 12px 4px 8px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+        }
+
+        .like-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .like-btn.liked {
+            color: #ff6b6b;
+        }
+        .like-btn.liked .heart-icon {
+            fill: #ff6b6b;
+        }
+
+        .like-btn .heart-icon {
+            width: 20px;
+            height: 20px;
+            transition: var(--transition);
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .like-btn.liked .heart-icon {
+            animation: heartPop 0.4s ease;
+        }
+
+        @keyframes heartPop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .like-count {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 20px;
+        }
+
+        .comment-toggle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px 10px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .comment-toggle:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .comment-toggle .icon {
+            font-size: 1.1rem;
+        }
+
+        /* ===== 评论区域 ===== */
+        .comment-section {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 4px;
+        }
+
+        .comment-section.open {
+            display: flex;
+        }
+
+        .comment-list {
+            max-height: 160px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 4px;
+        }
+
+        .comment-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .comment-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .comment-list::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 4px;
+        }
+
+        .comment-item {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .comment-item .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .comment-item .body {
+            flex: 1;
+            word-break: break-word;
+        }
+        .comment-item .body .name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 6px;
+        }
+        .comment-item .body .time {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-left: 6px;
+        }
+
+        .comment-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .comment-input-row input {
+            flex: 1;
+            padding: 8px 14px;
+            border-radius: 40px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: var(--font-family);
+        }
+
+        .comment-input-row input::placeholder {
+            color: var(--text-muted);
+        }
+        .comment-input-row input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(232, 184, 75, 0.08);
+        }
+
+        .comment-submit {
+            padding: 8px 18px;
+            border-radius: 40px;
+            background: var(--accent);
+            color: #0a0a0f;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .comment-submit:hover {
+            background: #d4a02b;
+            transform: scale(1.03);
+        }
+
+        .no-comments {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        /* ============================================================
+                   视频库
+                   ============================================================ */
         .video-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -442,7 +768,7 @@
         .video-card:hover {
             border-color: rgba(232, 184, 75, 0.2);
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-card);
         }
 
         .video-card .video-box {
@@ -491,7 +817,6 @@
         .video-card .info {
             padding: 18px 22px 22px;
         }
-
         .video-card .info h3 {
             font-size: 1rem;
             font-weight: 700;
@@ -502,7 +827,9 @@
             margin-top: 2px;
         }
 
-        /* ===== 关于 / 联系 ===== */
+        /* ============================================================
+                   关于
+                   ============================================================ */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -523,12 +850,12 @@
             color: var(--text-secondary);
             font-size: 1.05rem;
             line-height: 1.8;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .about-text .social-links {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
             margin-top: 8px;
         }
@@ -551,7 +878,7 @@
             border-color: var(--accent);
             color: var(--text-primary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(232, 184, 75, 0.12);
+            box-shadow: 0 8px 28px rgba(232, 184, 75, 0.1);
         }
 
         .about-image .img-wrapper {
@@ -569,7 +896,9 @@
             background: var(--bg-primary);
         }
 
-        /* ===== 页脚 ===== */
+        /* ============================================================
+                   页脚
+                   ============================================================ */
         .footer {
             padding: 40px 0 32px;
             border-top: 1px solid var(--border-light);
@@ -588,16 +917,13 @@
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-
         .footer .creator .accent {
             color: var(--accent);
         }
-
         .footer .copy {
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
-
         .footer .copy a {
             color: var(--accent);
             font-weight: 600;
@@ -605,237 +931,6 @@
         }
         .footer .copy a:hover {
             opacity: 0.7;
-        }
-
-        /* ============================================================
-                   ★★★ 新增：网络状态浮动面板 ★★★
-                   ============================================================ */
-        .network-panel {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 1000;
-            background: rgba(18, 18, 26, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 16px 20px 18px;
-            min-width: 200px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .network-panel:hover {
-            border-color: rgba(232, 184, 75, 0.2);
-            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.7), 0 0 40px rgba(232, 184, 75, 0.04);
-        }
-
-        .network-panel .panel-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .network-panel .panel-header .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: var(--transition);
-            box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
-        }
-
-        .network-panel .panel-header .status-dot.online {
-            background: #2ecc71;
-            box-shadow: 0 0 12px rgba(46, 204, 113, 0.5);
-            animation: pulse-green 2s ease-in-out infinite;
-        }
-
-        .network-panel .panel-header .status-dot.offline {
-            background: #e74c3c;
-            box-shadow: 0 0 12px rgba(231, 76, 60, 0.4);
-            animation: pulse-red 1.8s ease-in-out infinite;
-        }
-
-        .network-panel .panel-header .status-dot.warning {
-            background: #f39c12;
-            box-shadow: 0 0 12px rgba(243, 156, 18, 0.4);
-            animation: pulse-yellow 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-green {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(0.85);
-            }
-        }
-        @keyframes pulse-red {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.8);
-            }
-        }
-        @keyframes pulse-yellow {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(0.9);
-            }
-        }
-
-        .network-panel .panel-header .status-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 0.5px;
-            flex: 1;
-        }
-
-        .network-panel .panel-header .status-label .server-status-text {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .network-panel .panel-body {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .network-panel .panel-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.82rem;
-        }
-
-        .network-panel .panel-row .label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .network-panel .panel-row .value {
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.3px;
-            transition: var(--transition);
-        }
-
-        .network-panel .panel-row .value.latency-on {
-            color: var(--accent);
-        }
-
-        .network-panel .panel-row .value.latency-off {
-            color: var(--text-secondary);
-            opacity: 0.4;
-        }
-
-        .network-panel .panel-row .value.latency-high {
-            color: #f39c12;
-        }
-
-        .network-panel .panel-row .value.latency-critical {
-            color: #e74c3c;
-            animation: blink-text 0.8s ease-in-out infinite;
-        }
-
-        @keyframes blink-text {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        /* ---- 开关（自定义滑动开关） ---- */
-        .switch-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .switch-wrapper .switch-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        .switch {
-            position: relative;
-            width: 40px;
-            height: 22px;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .switch .slider {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 22px;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .switch .slider::before {
-            content: '';
-            position: absolute;
-            height: 16px;
-            width: 16px;
-            left: 2px;
-            bottom: 2px;
-            background: #fff;
-            border-radius: 50%;
-            transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .switch input:checked+.slider {
-            background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(232, 184, 75, 0.2);
-        }
-
-        .switch input:checked+.slider::before {
-            transform: translateX(18px);
-            background: #0a0a0f;
-        }
-
-        .switch:hover .slider {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .switch input:checked:hover+.slider {
-            border-color: #f5d67a;
         }
 
         /* ============================================================
@@ -847,7 +942,7 @@
                 text-align: center;
                 gap: 40px;
             }
-            .hero-content p {
+            .hero-content .sub-title {
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -857,7 +952,7 @@
             .hero-image .img-wrapper {
                 max-width: 100%;
             }
-            .grid-3 {
+            .works-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .about-grid {
@@ -874,7 +969,7 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 70%;
+                width: 72%;
                 max-width: 300px;
                 height: 100vh;
                 background: var(--bg-secondary);
@@ -886,35 +981,25 @@
                 border-left: 1px solid var(--border-light);
                 backdrop-filter: blur(20px);
             }
-
             .nav-links.open {
                 right: 0;
             }
-
             .hamburger {
                 display: flex;
-                z-index: 1000;
             }
 
             .hero {
                 padding: 100px 0 60px;
                 min-height: auto;
             }
-
             .hero-content h1 {
-                font-size: 2.4rem;
+                font-size: 2.6rem;
             }
-
             .hero-image .img-wrapper {
                 aspect-ratio: 16/10;
                 max-width: 100%;
                 border-radius: 12px;
             }
-
-            .hero-image .img-wrapper img {
-                object-fit: contain;
-            }
-
             .hero-image .img-wrapper .browser-bar {
                 padding: 4px 12px;
                 font-size: 0.55rem;
@@ -928,10 +1013,13 @@
                 font-size: 0.5rem;
             }
 
+            .section {
+                padding: 60px 0;
+            }
             .section-header h2 {
                 font-size: 2rem;
             }
-            .grid-3 {
+            .works-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
@@ -952,7 +1040,6 @@
             .work-card .img-box img {
                 object-fit: contain;
             }
-
             .about-image .img-wrapper {
                 aspect-ratio: 16/10;
             }
@@ -960,36 +1047,25 @@
                 object-fit: contain;
             }
 
-            /* 移动端网络面板调整 */
-            .network-panel {
-                bottom: 16px;
-                right: 16px;
-                padding: 14px 16px 16px;
-                min-width: 170px;
-                border-radius: 12px;
+            .work-actions {
+                padding: 10px 16px 14px;
             }
-            .network-panel .panel-header .status-label {
-                font-size: 0.7rem;
+            .comment-input-row input {
+                font-size: 0.8rem;
+                padding: 6px 12px;
             }
-            .network-panel .panel-row {
+            .comment-submit {
+                padding: 6px 14px;
                 font-size: 0.75rem;
-            }
-            .switch {
-                width: 34px;
-                height: 20px;
-            }
-            .switch .slider::before {
-                height: 14px;
-                width: 14px;
-            }
-            .switch input:checked+.slider::before {
-                transform: translateX(14px);
             }
         }
 
         @media (max-width: 480px) {
             .hero-content h1 {
-                font-size: 1.9rem;
+                font-size: 2rem;
+            }
+            .hero-content .sub-title {
+                font-size: 1rem;
             }
             .btn {
                 padding: 12px 28px;
@@ -998,7 +1074,6 @@
             .container {
                 padding: 0 16px;
             }
-
             .hero-image .img-wrapper {
                 aspect-ratio: 16/9;
                 border-radius: 10px;
@@ -1014,43 +1089,14 @@
             .hero-image .img-wrapper .browser-bar .url {
                 font-size: 0.4rem;
             }
-
-            .network-panel {
-                bottom: 12px;
-                right: 12px;
-                padding: 12px 14px 14px;
-                min-width: 150px;
-                border-radius: 10px;
+            .section-header h2 {
+                font-size: 1.6rem;
             }
-            .network-panel .panel-header {
-                margin-bottom: 8px;
-                padding-bottom: 8px;
+            .logo {
+                font-size: 1.2rem;
             }
-            .network-panel .panel-header .status-dot {
-                width: 8px;
-                height: 8px;
-            }
-            .network-panel .panel-header .status-label {
-                font-size: 0.65rem;
-            }
-            .network-panel .panel-row {
-                font-size: 0.7rem;
-            }
-            .switch-wrapper .switch-label {
-                font-size: 0.6rem;
-            }
-            .switch {
-                width: 30px;
-                height: 18px;
-            }
-            .switch .slider::before {
-                height: 12px;
-                width: 12px;
-                left: 2px;
-                bottom: 2px;
-            }
-            .switch input:checked+.slider::before {
-                transform: translateX(12px);
+            .work-card .info h3 {
+                font-size: 0.95rem;
             }
         }
 
@@ -1058,28 +1104,23 @@
         .text-center {
             text-align: center;
         }
+        .mt-4 {
+            margin-top: 4px;
+        }
         .mt-8 {
             margin-top: 8px;
         }
         .mb-8 {
             margin-bottom: 8px;
         }
-
-        /* 页面加载时网络面板的入场动画 */
-        .network-panel {
-            animation: panel-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-            animation-delay: 0.3s;
+        .gap-4 {
+            gap: 4px;
         }
-
-        @keyframes panel-enter {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        .flex {
+            display: flex;
+        }
+        .items-center {
+            align-items: center;
         }
     </style>
 </head>
@@ -1103,27 +1144,28 @@
         </div>
     </nav>
 
-    <!-- ========== Hero 区域 ========== -->
+    <!-- ========== Hero ========== -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
+                <div class="typing-decoration">✦ 创意无界 · 2026</div>
                 <h1>
                     创造<br />
                     <span class="highlight">视觉 · 体验 · 未来</span>
                 </h1>
-                <p>
+                <p class="sub-title">
                     我们专注于数字创意与品牌视觉设计，
                     用独特的美学语言讲述每个品牌的故事。
-                    探索影像与交互的无限可能。
+                    <span class="accent-text">探索影像与交互的无限可能。</span>
                 </p>
                 <div class="hero-buttons">
-                    <a href="#works" class="btn btn-primary">查看作品</a>
-                    <a href="#about" class="btn btn-outline">了解更多</a>
+                    <a href="#works" class="btn btn-primary">浏览作品</a>
+                    <a href="#about" class="btn btn-outline">了解团队</a>
                 </div>
             </div>
             <div class="hero-image">
                 <div class="img-wrapper">
-                    <img src="https://picsum.photos/seed/hero/1200/900" alt="TGNMOS 创意工作室 · 大图" loading="lazy" />
+                    <img src="https://picsum.photos/seed/hero2026/1200/900" alt="TGNMOS 创意工作室" loading="lazy" />
                     <div class="browser-bar">
                         <span class="dot"></span>
                         <span class="dot"></span>
@@ -1140,70 +1182,12 @@
     <section class="section" id="works">
         <div class="container">
             <div class="section-header">
-                <h2>精选 <span class="highlight">作品</span></h2>
-                <p>每个项目都是一次全新的视觉探索</p>
+                <div class="section-badge">✦ 精选创作</div>
+                <h2>最新 <span class="highlight">作品</span></h2>
+                <p>每个项目都是一次全新的视觉探索 · 点赞 & 评论支持</p>
             </div>
-            <div class="grid-3">
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work1/800/600" alt="作品 1" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>品牌视觉识别</h3>
-                        <p>为新兴科技品牌打造完整 VI 系统</p>
-                        <span class="tag">品牌设计</span>
-                    </div>
-                </div>
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work2/800/600" alt="作品 2" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>沉浸式展览</h3>
-                        <p>互动装置艺术与空间叙事结合</p>
-                        <span class="tag">空间设计</span>
-                    </div>
-                </div>
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work3/800/600" alt="作品 3" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>动态影像实验</h3>
-                        <p>实验性短片与视觉特效探索</p>
-                        <span class="tag">影像创作</span>
-                    </div>
-                </div>
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work4/800/600" alt="作品 4" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>UI/UX 设计</h3>
-                        <p>数字产品界面与用户体验设计</p>
-                        <span class="tag">交互设计</span>
-                    </div>
-                </div>
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work5/800/600" alt="作品 5" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>时尚摄影</h3>
-                        <p>商业时尚大片与视觉叙事</p>
-                        <span class="tag">摄影</span>
-                    </div>
-                </div>
-                <div class="work-card">
-                    <div class="img-box">
-                        <img src="https://picsum.photos/seed/work6/800/600" alt="作品 6" loading="lazy" />
-                    </div>
-                    <div class="info">
-                        <h3>数字艺术</h3>
-                        <p>生成艺术与 NFT 数字藏品</p>
-                        <span class="tag">数字艺术</span>
-                    </div>
-                </div>
+            <div class="works-grid" id="worksGrid">
+                <!-- 作品卡片由 JavaScript 动态生成 -->
             </div>
         </div>
     </section>
@@ -1212,6 +1196,7 @@
     <section class="section" id="videos" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="section-header">
+                <div class="section-badge">▶ 动态影像</div>
                 <h2>视频 <span class="highlight">库</span></h2>
                 <p>用动态影像传递情感与故事</p>
             </div>
@@ -1250,7 +1235,7 @@
         </div>
     </section>
 
-    <!-- ========== 关于 / 联系 ========== -->
+    <!-- ========== 关于 ========== -->
     <section class="section" id="about">
         <div class="container">
             <div class="about-grid">
@@ -1263,21 +1248,21 @@
                         我们以叙事为核心，创造有温度、有力量的视觉体验。
                     </p>
                     <p>
-                        邮箱合作联系：<strong>18984583543@163.com</strong>
+                        邮箱合作联系：<strong style="color:var(--accent);">18984583543@163.com</strong>
                     </p>
                     <div class="social-links">
-                        <a href="https://weibo.com/u/8000934642" target="_blank">📸 微博</a>
+                        <a href="https://weibo.com/u/8000934642" target="_blank">🌐 微博</a>
                         <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=XgCHZOzh4pgkUV0AuWq%2F1M1zOiuihF%2B59EeLFPlbsdbk9yj2TaxhTEZ%2FFsaNYikV&busi_data=eyJncm91cENvZGUiOiIxMDg0Nzc1NTUwIiwidG9rZW4iOiI5TEZZU1VYZXJUSHEwSGNKdE1rWUIydkxOR0IzbmU4b3p1dGpUckhLWWhUblZncjdWSnd4cUtkaUgyaERtK0MxIiwidWluIjoiMzQ4NTYxNjI1OSJ9&data=o6O9k9iMw5xBEs_5uJObIJj_qTYV-7z0GkXo7qzyQ6LSkR85_tELIV_EGB3Qq_lIeyilKo1O4SPDOo9cT3i6uA&svctype=4&tempid=h5_group_info" target="_blank">🐦 Q群聊</a>
                         <a href="#" target="_blank">🛠️ 敬请期待</a>
                         <a href="mailto:18984583543@163.com?subject=网站咨询&body=您好，我想咨询..." target="_blank">📧 邮箱</a>
                     </div>
-                    <p style="margin-top:20px; font-size:0.9rem; color:var(--text-secondary);">
-                        以上，欢迎大家好！
+                    <p style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);">
+                        ✦ 欢迎大家一起交流合作 ✦
                     </p>
                 </div>
                 <div class="about-image">
                     <div class="img-wrapper">
-                        <img src="https://picsum.photos/seed/about/800/600" alt="关于 TGNMOS" loading="lazy" />
+                        <img src="https://picsum.photos/seed/about2026/800/600" alt="关于 TGNMOS" loading="lazy" />
                     </div>
                 </div>
             </div>
@@ -1297,86 +1282,330 @@
     </footer>
 
     <!-- ============================================================
-    ★★★ 新增：网络状态浮动面板 ★★★
-    ============================================================ -->
-    <div class="network-panel" id="networkPanel">
-        <!-- 面板头部：状态指示灯 + 状态文字 -->
-        <div class="panel-header">
-            <span class="status-dot online" id="statusDot"></span>
-            <span class="status-label">
-                服务器 <span class="server-status-text" id="serverStatusText">在线</span>
-            </span>
-        </div>
-        <!-- 面板主体 -->
-        <div class="panel-body">
-            <!-- 延迟行 -->
-            <div class="panel-row">
-                <span class="label">⏱ 延迟</span>
-                <span class="value latency-off" id="latencyValue">--</span>
-            </div>
-            <!-- 开关行 -->
-            <div class="panel-row">
-                <span class="label">📡 延迟网络</span>
-                <div class="switch-wrapper">
-                    <span class="switch-label" id="switchLabel">关</span>
-                    <label class="switch" title="开启/关闭延迟模拟">
-                        <input type="checkbox" id="latencyToggle" />
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== JavaScript ========== -->
+               JavaScript
+               ============================================================ -->
     <script>
-        // =============================================================
-        // 1. 汉堡菜单
-        // =============================================================
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+        // ============================================================
+        // 1. 作品数据（包含图片、标题、描述、标签）
+        // ============================================================
+        const WORKS_DATA = [{
+            id: 'work1',
+            title: '品牌视觉识别',
+            desc: '为新兴科技品牌打造完整 VI 系统',
+            tag: '品牌设计',
+            img: 'https://picsum.photos/seed/w1/800/600'
+        }, {
+            id: 'work2',
+            title: '沉浸式展览',
+            desc: '互动装置艺术与空间叙事结合',
+            tag: '空间设计',
+            img: 'https://picsum.photos/seed/w2/800/600'
+        }, {
+            id: 'work3',
+            title: '动态影像实验',
+            desc: '实验性短片与视觉特效探索',
+            tag: '影像创作',
+            img: 'https://picsum.photos/seed/w3/800/600'
+        }, {
+            id: 'work4',
+            title: 'UI/UX 设计',
+            desc: '数字产品界面与用户体验设计',
+            tag: '交互设计',
+            img: 'https://picsum.photos/seed/w4/800/600'
+        }, {
+            id: 'work5',
+            title: '时尚摄影',
+            desc: '商业时尚大片与视觉叙事',
+            tag: '摄影',
+            img: 'https://picsum.photos/seed/w5/800/600'
+        }, {
+            id: 'work6',
+            title: '数字艺术',
+            desc: '生成艺术与 NFT 数字藏品',
+            tag: '数字艺术',
+            img: 'https://picsum.photos/seed/w6/800/600'
+        }];
 
-        hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navLinks.classList.toggle('open');
-        });
+        // ============================================================
+        // 2. 数据管理 (localStorage)
+        // ============================================================
+        const STORAGE_KEY = 'tgnmos_works_data';
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
+        function getDefaultData() {
+            const data = {};
+            WORKS_DATA.forEach(w => {
+                data[w.id] = {
+                    likes: 0,
+                    liked: false,
+                    comments: []
+                };
             });
-        });
+            return data;
+        }
 
-        // =============================================================
-        // 2. 滚动激活导航高亮
-        // =============================================================
-        const sections = document.querySelectorAll('section[id]');
-        const navLinkItems = document.querySelectorAll('.nav-links a');
-
-        function updateActiveLink() {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 120;
-                if (window.scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
+        function loadData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    // 确保所有作品都有数据
+                    let needUpdate = false;
+                    WORKS_DATA.forEach(w => {
+                        if (!parsed[w.id]) {
+                            parsed[w.id] = { likes: 0, liked: false, comments: [] };
+                            needUpdate = true;
+                        }
+                    });
+                    if (needUpdate) {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+                    }
+                    return parsed;
                 }
+            } catch (e) {
+                console.warn('读取存储失败，使用默认数据', e);
+            }
+            const def = getDefaultData();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(def));
+            return def;
+        }
+
+        function saveData(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // ============================================================
+        // 3. 渲染作品卡片
+        // ============================================================
+        const worksData = loadData();
+
+        function renderWorks() {
+            const grid = document.getElementById('worksGrid');
+            grid.innerHTML = '';
+
+            WORKS_DATA.forEach((work, index) => {
+                const card = document.createElement('div');
+                card.className = 'work-card';
+                card.dataset.id = work.id;
+
+                const itemData = worksData[work.id] || { likes: 0, liked: false, comments: [] };
+                const likeCount = itemData.likes || 0;
+                const liked = itemData.liked || false;
+                const comments = itemData.comments || [];
+
+                card.innerHTML = `
+                        <div class="img-box">
+                            <img src="${work.img}" alt="${work.title}" loading="lazy" />
+                        </div>
+                        <div class="info">
+                            <div class="title-row">
+                                <div>
+                                    <h3>${work.title}</h3>
+                                    <div class="desc">${work.desc}</div>
+                                    <span class="tag">${work.tag}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-actions">
+                            <div class="like-row">
+                                <button class="like-btn ${liked ? 'liked' : ''}" data-id="${work.id}">
+                                    <svg class="heart-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="${liked ? '#ff6b6b' : 'none'}">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                    <span class="like-count">${likeCount}</span>
+                                </button>
+                                <button class="comment-toggle" data-id="${work.id}">
+                                    <span class="icon">💬</span>
+                                    <span>${comments.length}</span>
+                                </button>
+                            </div>
+                            <div class="comment-section" id="comments-${work.id}">
+                                <div class="comment-list" id="commentList-${work.id}">
+                                    ${comments.length === 0 ? '<div class="no-comments">还没有评论，来说点什么吧 ✨</div>' : ''}
+                                    ${comments.map((c, i) => `
+                                        <div class="comment-item">
+                                            <div class="avatar">${c.name ? c.name.charAt(0).toUpperCase() : 'U'}</div>
+                                            <div class="body">
+                                                <span class="name">${c.name || '匿名'}</span>
+                                                <span>${c.text}</span>
+                                                <span class="time">${c.time || ''}</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="comment-input-row">
+                                    <input type="text" placeholder="写评论…" class="comment-input" data-id="${work.id}" />
+                                    <button class="comment-submit" data-id="${work.id}">发送</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                grid.appendChild(card);
             });
 
-            navLinkItems.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
+            // 绑定事件
+            bindEvents();
+        }
+
+        // ============================================================
+        // 4. 事件绑定
+        // ============================================================
+        function bindEvents() {
+            // ---- 点赞 ----
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.removeEventListener('click', handleLike);
+                btn.addEventListener('click', handleLike);
+            });
+
+            // ---- 评论切换 ----
+            document.querySelectorAll('.comment-toggle').forEach(toggle => {
+                toggle.removeEventListener('click', handleCommentToggle);
+                toggle.addEventListener('click', handleCommentToggle);
+            });
+
+            // ---- 评论提交 ----
+            document.querySelectorAll('.comment-submit').forEach(submit => {
+                submit.removeEventListener('click', handleCommentSubmit);
+                submit.addEventListener('click', handleCommentSubmit);
+            });
+
+            // ---- 评论输入框回车 ----
+            document.querySelectorAll('.comment-input').forEach(input => {
+                input.removeEventListener('keydown', handleCommentKeydown);
+                input.addEventListener('keydown', handleCommentKeydown);
             });
         }
 
-        window.addEventListener('scroll', updateActiveLink);
-        window.addEventListener('load', updateActiveLink);
+        // ============================================================
+        // 5. 点赞处理
+        // ============================================================
+        function handleLike(e) {
+            const btn = e.currentTarget;
+            const id = btn.dataset.id;
+            const data = worksData[id];
+            if (!data) return;
 
-        // =============================================================
-        // 3. 视频控制
-        // =============================================================
+            data.liked = !data.liked;
+            data.likes += data.liked ? 1 : -1;
+            if (data.likes < 0) data.likes = 0;
+
+            saveData(worksData);
+
+            // 更新UI
+            const countSpan = btn.querySelector('.like-count');
+            const heart = btn.querySelector('.heart-icon');
+            if (countSpan) countSpan.textContent = data.likes;
+            if (data.liked) {
+                btn.classList.add('liked');
+                if (heart) heart.setAttribute('fill', '#ff6b6b');
+            } else {
+                btn.classList.remove('liked');
+                if (heart) heart.setAttribute('fill', 'none');
+            }
+
+            // 微小的触感反馈
+            btn.style.transform = 'scale(0.92)';
+            setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+        }
+
+        // ============================================================
+        // 6. 评论切换
+        // ============================================================
+        function handleCommentToggle(e) {
+            const btn = e.currentTarget;
+            const id = btn.dataset.id;
+            const section = document.getElementById(`comments-${id}`);
+            if (section) {
+                section.classList.toggle('open');
+                // 如果打开，聚焦输入框
+                if (section.classList.contains('open')) {
+                    const input = section.querySelector('.comment-input');
+                    if (input) setTimeout(() => input.focus(), 100);
+                }
+            }
+        }
+
+        // ============================================================
+        // 7. 评论提交
+        // ============================================================
+        function handleCommentSubmit(e) {
+            const btn = e.currentTarget;
+            const id = btn.dataset.id;
+            const section = document.getElementById(`comments-${id}`);
+            if (!section) return;
+
+            const input = section.querySelector('.comment-input');
+            const text = input.value.trim();
+            if (!text) {
+                input.focus();
+                input.style.borderColor = '#ff6b6b';
+                setTimeout(() => { input.style.borderColor = ''; }, 800);
+                return;
+            }
+
+            const data = worksData[id];
+            if (!data) return;
+
+            const comment = {
+                name: '访客',
+                text: text,
+                time: new Date().toLocaleString('zh-CN', { hour12: false })
+            };
+
+            data.comments.push(comment);
+            saveData(worksData);
+
+            // 更新UI
+            const list = document.getElementById(`commentList-${id}`);
+            if (list) {
+                // 移除"暂无评论"
+                const noComment = list.querySelector('.no-comments');
+                if (noComment) noComment.remove();
+
+                const item = document.createElement('div');
+                item.className = 'comment-item';
+                item.innerHTML = `
+                        <div class="avatar">${comment.name.charAt(0).toUpperCase()}</div>
+                        <div class="body">
+                            <span class="name">${comment.name}</span>
+                            <span>${comment.text}</span>
+                            <span class="time">${comment.time}</span>
+                        </div>
+                    `;
+                list.appendChild(item);
+                list.scrollTop = list.scrollHeight;
+            }
+
+            // 更新评论计数
+            const toggle = document.querySelector(`.comment-toggle[data-id="${id}"]`);
+            if (toggle) {
+                const countSpan = toggle.querySelector('span:last-child');
+                if (countSpan) countSpan.textContent = data.comments.length;
+            }
+
+            input.value = '';
+            input.focus();
+
+            // 动画反馈
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+        }
+
+        // ============================================================
+        // 8. 评论回车
+        // ============================================================
+        function handleCommentKeydown(e) {
+            if (e.key === 'Enter') {
+                const input = e.currentTarget;
+                const id = input.dataset.id;
+                const submit = document.querySelector(`.comment-submit[data-id="${id}"]`);
+                if (submit) submit.click();
+            }
+        }
+
+        // ============================================================
+        // 9. 视频播放控制
+        // ============================================================
         function toggleVideo(videoId) {
             const video = document.getElementById(videoId);
             if (!video) return;
@@ -1391,6 +1620,7 @@
             }
         }
 
+        // 视频结束重置 overlay
         document.querySelectorAll('video').forEach(v => {
             v.addEventListener('ended', function() {
                 const overlay = this.parentElement.querySelector('.play-overlay');
@@ -1408,239 +1638,71 @@
             });
         });
 
-        // =============================================================
-        // 4. 平滑滚动
-        // =============================================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const target = document.querySelector(targetId);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // ============================================================
+        // 10. 导航交互
+//============================================================
+        // 汉堡菜单
+const hamburger=document.getElementById('hamburger')；
+常量navlinks=document.getElementById('navlinks')；
+
+汉堡包。addEventListener('click'，function(){
+this.classList.toggle('active')；
+navLinks.classList.toggle('open')；
+        });
+
+document.querySelectorAll('.nav-links a').forEach(link=>{
+link.addEventListener('click'，()=>{
+hamburger.classList.remove('active')；
+navLinks.classList.remove('open')；
+            });
+        });
+
+        // 滚动高亮
+Const sections=document.querySelectorAll('section[id]')；
+常量navLinkItems=文档.querySelectorAll('.导航链接一个')；
+
+函数updateActiveLink(){
+设current="；
+sections.forEach(section=>{
+const sectionTop=section.offsetTop-120；
+if(window.scrollY>=sectionTop){
+current=section.getAttribute('id')；
+                }
+            });
+navLinkItems.forEach(link=>{
+link.classList.remove('active')；
+if(link.getAttribute('href')==='#'+当前){
+link.classList.add('active')；
+                }
+            });
+        }
+
+window.addEventListener('滚动'，updateActiveLink)；
+window.addEventListener('load'，updateActiveLink)；
+
+        // 平滑滚动
+文件。querySelectorAll('a[href^="#"]').forEach(锚点=>{
+anchor.addEventListener('click'，函数(e){
+Const targetId=this.getAttribute('href')；
+if(targetId==='#')返回；
+Const target=document.querySelector(targetId)；
+if(目标){
+e.preventDefault()；
+target.scrollIntoView({行为：'光滑的'，区块：'开始'})；
                 }
             });
         });
 
-        // =============================================================
-        // 5. ★★★ 网络状态面板逻辑 ★★★
-        // =============================================================
-        (function() {
-            // DOM 引用
-            const statusDot = document.getElementById('statusDot');
-            const serverStatusText = document.getElementById('serverStatusText');
-            const latencyValue = document.getElementById('latencyValue');
-            const latencyToggle = document.getElementById('latencyToggle');
-            const switchLabel = document.getElementById('switchLabel');
+//============================================================
+// 11. 初始化
+//============================================================
+renderWorks()；
 
-            // 状态变量
-            let isLatencyOn = false; // 延迟开关状态
-            let isOnline = true; // 服务器在线状态
-            let latencyInterval = null;
-            let currentLatency = 0;
-
-            // ===== 更新 UI =====
-            function updateUI() {
-                // 更新状态指示灯和文字
-                if (isOnline) {
-                    statusDot.className = 'status-dot online';
-                    serverStatusText.textContent = '在线';
-                    serverStatusText.style.color = '#2ecc71';
-                } else {
-                    statusDot.className = 'status-dot offline';
-                    serverStatusText.textContent = '离线';
-                    serverStatusText.style.color = '#e74c3c';
-                }
-
-                // 更新延迟显示
-                if (isLatencyOn && isOnline) {
-                    // 延迟开启且服务器在线 → 显示实时延迟
-                    latencyValue.textContent = currentLatency + 'ms';
-                    latencyValue.className = 'value latency-on';
-
-                    // 根据延迟值改变颜色
-                    if (currentLatency > 200) {
-                        latencyValue.className = 'value latency-critical';
-                    } else if (currentLatency > 100) {
-                        latencyValue.className = 'value latency-high';
-                    } else {
-                        latencyValue.className = 'value latency-on';
-                    }
-                } else if (!isOnline) {
-                    // 服务器离线 → 显示 "--"
-                    latencyValue.textContent = '--';
-                    latencyValue.className = 'value latency-off';
-                } else {
-                    // 延迟关闭 → 显示 "--"
-                    latencyValue.textContent = '--';
-                    latencyValue.className = 'value latency-off';
-                }
-
-                // 更新开关标签
-                switchLabel.textContent = isLatencyOn ? '开' : '关';
-                switchLabel.style.color = isLatencyOn ? 'var(--accent)' : 'var(--text-secondary)';
-            }
-
-            // ===== 生成随机延迟 (10~250ms) =====
-            function generateLatency() {
-                return Math.floor(Math.random() * 240) + 10;
-            }
-
-            // ===== 更新延迟数值（周期性） =====
-            function updateLatencyValue() {
-                if (isLatencyOn && isOnline) {
-                    currentLatency = generateLatency();
-                    updateUI();
-                }
-            }
-
-            // ===== 启动/停止延迟更新 =====
-            function toggleLatencyUpdater(enable) {
-                if (latencyInterval) {
-                    clearInterval(latencyInterval);
-                    latencyInterval = null;
-                }
-                if (enable && isOnline) {
-                    // 立即生成一个初始值
-                    currentLatency = generateLatency();
-                    updateUI();
-                    // 每 1.2~2.5 秒变化一次
-                    latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
-                } else {
-                    // 停止更新
-                    currentLatency = 0;
-                    updateUI();
-                }
-            }
-
-            // ===== 切换服务器状态（在线/离线） =====
-            function toggleServerStatus() {
-                isOnline = !isOnline;
-                // 如果切换到离线，停止延迟更新
-                if (!isOnline) {
-                    if (latencyInterval) {
-                        clearInterval(latencyInterval);
-                        latencyInterval = null;
-                    }
-                    currentLatency = 0;
-                    updateUI();
-                } else {
-                    // 如果切换到在线，且延迟开关开启，则启动更新
-                    if (isLatencyOn) {
-                        currentLatency = generateLatency();
-                        updateUI();
-                        if (latencyInterval) {
-                            clearInterval(latencyInterval);
-                            latencyInterval = null;
-                        }
-                        latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
-                    } else {
-                        updateUI();
-                    }
-                }
-                updateUI();
-            }
-
-            // ===== 处理开关切换 =====
-            function handleToggleChange() {
-                isLatencyOn = latencyToggle.checked;
-
-                if (isLatencyOn && isOnline) {
-                    // 开启延迟，且服务器在线 → 开始更新
-                    currentLatency = generateLatency();
-                    updateUI();
-                    if (latencyInterval) {
-                        clearInterval(latencyInterval);
-                        latencyInterval = null;
-                    }
-                    latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
-                } else {
-                    // 关闭延迟 或 服务器离线 → 停止更新
-                    if (latencyInterval) {
-                        clearInterval(latencyInterval);
-                        latencyInterval = null;
-                    }
-                    currentLatency = 0;
-                    updateUI();
-                }
-                updateUI();
-            }
-
-            // ===== 初始化 =====
-            function init() {
-                // 默认：服务器在线，延迟关闭
-                isOnline = true;
-                isLatencyOn = false;
-                latencyToggle.checked = false;
-                currentLatency = 0;
-                updateUI();
-
-                // 监听开关变化
-                latencyToggle.addEventListener('change', handleToggleChange);
-
-                // ★ 双击状态指示灯切换服务器在线/离线（模拟"没有服务器"场景）
-statusDot.addEventListener('dblclick'，函数(e){
-E.停止传播()；
-toggleServerStatus()；
-                    // 如果切换到离线，强制关闭延迟开关
-if(！isOnline){
-latencyToggle.checked=false；
-isLatencyOn=false；
-if(latencyInterval){
-clearInterval(latencyInterval)；
-latencyInterval=null；
-                        }
-currentLatency=0；
-updateUI()；
-}else{
-                        // 如果切换到在线，恢复开关状态
-                        // 但保持开关状态不变，由用户决定
-                        // 如果之前是开启状态，需要重新启动
-if(isLatencyOn){
-//但这里isLatencyOn已经是false了，因为上面强制关闭了
-                            // 所以我们只更新UI，不自动开启
-                        }
-updateUI()；
-                    }
-// 显示提示（在控制台）
-console.log('🔄 服务器状态切换为：${isOnline？'在线'：'离线'}‘)；
-                });
-
-                // 提示用户双击指示灯切换服务器状态
-console.log('💡 双击状态指示灯可切换服务器在线/离线模式')；
-console.log('💡 开启"延迟网络"开关可模拟网络延迟')；
-
-                // 额外：点击面板不冒泡
-文件。getElementById('networkPanel').AddEventListener('click'，函数(e){
-E.停止传播()；
-                });
-            }
-
-// 页面加载完成后初始化
-if(document.readyState==='loading'){
-document.addEventListener('DOMContentLoaded'，init)；
-}else{
-init()；
-            }
-
-            // 暴露一些变量到全局，方便调试
-window.__networkPanel={
-toggleServer:toggleServerStatus，
-isOnline：()=>isOnline，
-isLatencyOn：()=>isLatencyOn，
-getLatency：()=>currentLatency，
-            };
-
-        })();
-
-//=============================================================
-        // 6. 控制台彩蛋
-//=============================================================
-console.log('%c✦ TGNMOS Studio ✦'，'font-size:20px；font-weight:bold；color：#e8b84b；')；
+        // 控制台彩蛋
+console.log('%c✦ TGNMOS Studio ✦'，'font-size:22px；font-weight:bold；color：#e8b84b；')；
 console.log('%c创作者@TGNMOS- 合作|用 ❤️ 构建'，'font-size:14px；color：#b0b0c8；')；
-console.log('%c💡 双击右下角网络面板的指示灯可切换服务器状态'，'font-size:12px；color：#e8b84b；')；
-console.log('%c📡 开启"延迟网络"开关体验延迟模拟'，'font-size:12px；color：#e8b84b；')；
+console.log('%c欢迎合作！点赞&评论功能已开启 ✨'，'font-size:13px；color：#e8b84b；')；
+控制台。日志('%c当前共${WORKS_data.length}件作品，数存赚在localStorage中'，'font-size:12px；color：#6a6a82；')；
 </script>
 
 </body>
