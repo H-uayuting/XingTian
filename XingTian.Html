@@ -1,39 +1,39 @@
-<！doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8"/>
-<元名称="视口"内容="宽度=设备宽度，初始比例=1.0"/>
-<title>TGNMOS·创意官网</title>
-<！--使用HTTPS协议引用字体-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>TGNMOS · 创意官网</title>
+    <!-- 使用 HTTPS 协议引用字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
-<style>
-/* ===== 全局重置 & 基础 ===== */
+    <style>
+        /* ===== 全局重置 & 基础 ===== */
         *,
-*：：之前，
-*：：{之后
-页边距：0；
-填充：0；
-框大小：边框框；
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-：root{
+        :root {
             --bg-primary: #0a0a0f;
---bg-二级：#12121a；
---bg-card：#1a1a2e；
---text-primary：#f0f0f5；
---text-secondary：#b0b0c8；
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c8;
             --accent: #e8b84b;
---acent-glow:rgba(232，184，75，0.25)；
---border-light:rgba(255，255，255，0.06)；
---半径：16px；
---转换：0.35s立方比塞(0.25，0.46，0.45，0.94)；
+            --accent-glow: rgba(232, 184, 75, 0.25);
+            --border-light: rgba(255, 255, 255, 0.06);
+            --radius: 16px;
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-HTML{
-滚动行为：平滑；
+        html {
+            scroll-behavior: smooth;
         }
 
-正文{
+        body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -266,23 +266,68 @@ HTML{
 
         .hero-image .img-wrapper {
             width: 100%;
-            max-width: 480px;
+            max-width: 560px;
             aspect-ratio: 4/3;
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             border: 1px solid var(--border-light);
             background: var(--bg-secondary);
+            position: relative;
         }
 
         .hero-image .img-wrapper img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: var(--transition);
+            background: var(--bg-primary);
         }
         .hero-image .img-wrapper img:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
+        }
+
+        .hero-image .img-wrapper .browser-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 6px 14px;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid var(--border-light);
+            border-radius: 0 0 var(--radius) var(--radius);
+            letter-spacing: 0.3px;
+        }
+        .hero-image .img-wrapper .browser-bar .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e74c3c;
+            margin-right: 4px;
+        }
+        .hero-image .img-wrapper .browser-bar .dot:nth-child(2) {
+            background: #f1c40f;
+        }
+        .hero-image .img-wrapper .browser-bar .dot:nth-child(3) {
+            background: #2ecc71;
+        }
+        .hero-image .img-wrapper .browser-bar .url {
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.6rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* ===== 作品集 ===== */
@@ -341,12 +386,13 @@ HTML{
         .work-card .img-box img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: var(--transition);
+            background: var(--bg-primary);
         }
 
         .work-card:hover .img-box img {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
 
         .work-card .info {
@@ -410,7 +456,8 @@ HTML{
         .video-card .video-box video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background: #000;
         }
 
         .video-card .video-box .play-overlay {
@@ -518,7 +565,8 @@ HTML{
         .about-image .img-wrapper img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background: var(--bg-primary);
         }
 
         /* ===== 页脚 ===== */
@@ -559,7 +607,240 @@ HTML{
             opacity: 0.7;
         }
 
-        /* ===== 响应式 ===== */
+        /* ============================================================
+                   ★★★ 新增：网络状态浮动面板 ★★★
+                   ============================================================ */
+        .network-panel {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 1000;
+            background: rgba(18, 18, 26, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 20px 18px;
+            min-width: 200px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .network-panel:hover {
+            border-color: rgba(232, 184, 75, 0.2);
+            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.7), 0 0 40px rgba(232, 184, 75, 0.04);
+        }
+
+        .network-panel .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .network-panel .panel-header .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: var(--transition);
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
+        }
+
+        .network-panel .panel-header .status-dot.online {
+            background: #2ecc71;
+            box-shadow: 0 0 12px rgba(46, 204, 113, 0.5);
+            animation: pulse-green 2s ease-in-out infinite;
+        }
+
+        .network-panel .panel-header .status-dot.offline {
+            background: #e74c3c;
+            box-shadow: 0 0 12px rgba(231, 76, 60, 0.4);
+            animation: pulse-red 1.8s ease-in-out infinite;
+        }
+
+        .network-panel .panel-header .status-dot.warning {
+            background: #f39c12;
+            box-shadow: 0 0 12px rgba(243, 156, 18, 0.4);
+            animation: pulse-yellow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-green {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.85);
+            }
+        }
+        @keyframes pulse-red {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+        @keyframes pulse-yellow {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(0.9);
+            }
+        }
+
+        .network-panel .panel-header .status-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .network-panel .panel-header .status-label .server-status-text {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .network-panel .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .network-panel .panel-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+        }
+
+        .network-panel .panel-row .label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .network-panel .panel-row .value {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.3px;
+            transition: var(--transition);
+        }
+
+        .network-panel .panel-row .value.latency-on {
+            color: var(--accent);
+        }
+
+        .network-panel .panel-row .value.latency-off {
+            color: var(--text-secondary);
+            opacity: 0.4;
+        }
+
+        .network-panel .panel-row .value.latency-high {
+            color: #f39c12;
+        }
+
+        .network-panel .panel-row .value.latency-critical {
+            color: #e74c3c;
+            animation: blink-text 0.8s ease-in-out infinite;
+        }
+
+        @keyframes blink-text {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* ---- 开关（自定义滑动开关） ---- */
+        .switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .switch-wrapper .switch-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch .slider {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .switch .slider::before {
+            content: '';
+            position: absolute;
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: #fff;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .switch input:checked+.slider {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(232, 184, 75, 0.2);
+        }
+
+        .switch input:checked+.slider::before {
+            transform: translateX(18px);
+            background: #0a0a0f;
+        }
+
+        .switch:hover .slider {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .switch input:checked:hover+.slider {
+            border-color: #f5d67a;
+        }
+
+        /* ============================================================
+                   响应式
+                   ============================================================ */
         @media (max-width: 1024px) {
             .hero .container {
                 grid-template-columns: 1fr;
@@ -615,23 +896,94 @@ HTML{
                 z-index: 1000;
             }
 
+            .hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+
             .hero-content h1 {
                 font-size: 2.4rem;
             }
+
+            .hero-image .img-wrapper {
+                aspect-ratio: 16/10;
+                max-width: 100%;
+                border-radius: 12px;
+            }
+
+            .hero-image .img-wrapper img {
+                object-fit: contain;
+            }
+
+            .hero-image .img-wrapper .browser-bar {
+                padding: 4px 12px;
+                font-size: 0.55rem;
+                gap: 6px;
+            }
+            .hero-image .img-wrapper .browser-bar .dot {
+                width: 8px;
+                height: 8px;
+            }
+            .hero-image .img-wrapper .browser-bar .url {
+                font-size: 0.5rem;
+            }
+
             .section-header h2 {
                 font-size: 2rem;
             }
             .grid-3 {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
             .video-grid {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
             .about-text h2 {
                 font-size: 1.8rem;
             }
             .navbar {
                 padding: 14px 0;
+            }
+
+            .work-card .img-box {
+                aspect-ratio: 16/10;
+            }
+            .work-card .img-box img {
+                object-fit: contain;
+            }
+
+            .about-image .img-wrapper {
+                aspect-ratio: 16/10;
+            }
+            .about-image .img-wrapper img {
+                object-fit: contain;
+            }
+
+            /* 移动端网络面板调整 */
+            .network-panel {
+                bottom: 16px;
+                right: 16px;
+                padding: 14px 16px 16px;
+                min-width: 170px;
+                border-radius: 12px;
+            }
+            .network-panel .panel-header .status-label {
+                font-size: 0.7rem;
+            }
+            .network-panel .panel-row {
+                font-size: 0.75rem;
+            }
+            .switch {
+                width: 34px;
+                height: 20px;
+            }
+            .switch .slider::before {
+                height: 14px;
+                width: 14px;
+            }
+            .switch input:checked+.slider::before {
+                transform: translateX(14px);
             }
         }
 
@@ -646,6 +998,60 @@ HTML{
             .container {
                 padding: 0 16px;
             }
+
+            .hero-image .img-wrapper {
+                aspect-ratio: 16/9;
+                border-radius: 10px;
+            }
+            .hero-image .img-wrapper .browser-bar {
+                padding: 3px 10px;
+                font-size: 0.45rem;
+            }
+            .hero-image .img-wrapper .browser-bar .dot {
+                width: 6px;
+                height: 6px;
+            }
+            .hero-image .img-wrapper .browser-bar .url {
+                font-size: 0.4rem;
+            }
+
+            .network-panel {
+                bottom: 12px;
+                right: 12px;
+                padding: 12px 14px 14px;
+                min-width: 150px;
+                border-radius: 10px;
+            }
+            .network-panel .panel-header {
+                margin-bottom: 8px;
+                padding-bottom: 8px;
+            }
+            .network-panel .panel-header .status-dot {
+                width: 8px;
+                height: 8px;
+            }
+            .network-panel .panel-header .status-label {
+                font-size: 0.65rem;
+            }
+            .network-panel .panel-row {
+                font-size: 0.7rem;
+            }
+            .switch-wrapper .switch-label {
+                font-size: 0.6rem;
+            }
+            .switch {
+                width: 30px;
+                height: 18px;
+            }
+            .switch .slider::before {
+                height: 12px;
+                width: 12px;
+                left: 2px;
+                bottom: 2px;
+            }
+            .switch input:checked+.slider::before {
+                transform: translateX(12px);
+            }
         }
 
         /* ===== 工具类 ===== */
@@ -658,11 +1064,28 @@ HTML{
         .mb-8 {
             margin-bottom: 8px;
         }
+
+        /* 页面加载时网络面板的入场动画 */
+        .network-panel {
+            animation: panel-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes panel-enter {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ========== 导航栏 (4个链接) ========== -->
+    <!-- ========== 导航栏 ========== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="#" class="logo">TGNMOS<span>·Studio</span></a>
@@ -700,12 +1123,14 @@ HTML{
             </div>
             <div class="hero-image">
                 <div class="img-wrapper">
-                    <!-- 图片资源：assets/images/hero.jpg 或使用在线占位 -->
-                    <img
-                    src="https://picsum.photos/seed/hero/800/600"
-                    alt="TGNMOS 创意工作室 Hero 图片"
-                    loading="lazy"
-                    />
+                    <img src="https://picsum.photos/seed/hero/1200/900" alt="TGNMOS 创意工作室 · 大图" loading="lazy" />
+                    <div class="browser-bar">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="url">✦ tgnmos.studio / 创意无限</span>
+                        <span style="opacity:0.3;">⬡</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -719,10 +1144,9 @@ HTML{
                 <p>每个项目都是一次全新的视觉探索</p>
             </div>
             <div class="grid-3">
-                <!-- 作品卡片 1 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work1/600/450" alt="作品 1" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work1/800/600" alt="作品 1" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>品牌视觉识别</h3>
@@ -730,10 +1154,9 @@ HTML{
                         <span class="tag">品牌设计</span>
                     </div>
                 </div>
-                <!-- 作品卡片 2 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work2/600/450" alt="作品 2" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work2/800/600" alt="作品 2" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>沉浸式展览</h3>
@@ -741,10 +1164,9 @@ HTML{
                         <span class="tag">空间设计</span>
                     </div>
                 </div>
-                <!-- 作品卡片 3 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work3/600/450" alt="作品 3" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work3/800/600" alt="作品 3" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>动态影像实验</h3>
@@ -752,10 +1174,9 @@ HTML{
                         <span class="tag">影像创作</span>
                     </div>
                 </div>
-                <!-- 作品卡片 4 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work4/600/450" alt="作品 4" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work4/800/600" alt="作品 4" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>UI/UX 设计</h3>
@@ -763,10 +1184,9 @@ HTML{
                         <span class="tag">交互设计</span>
                     </div>
                 </div>
-                <!-- 作品卡片 5 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work5/600/450" alt="作品 5" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work5/800/600" alt="作品 5" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>时尚摄影</h3>
@@ -774,10 +1194,9 @@ HTML{
                         <span class="tag">摄影</span>
                     </div>
                 </div>
-                <!-- 作品卡片 6 -->
                 <div class="work-card">
                     <div class="img-box">
-                        <img src="https://picsum.photos/seed/work6/600/450" alt="作品 6" loading="lazy" />
+                        <img src="https://picsum.photos/seed/work6/800/600" alt="作品 6" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>数字艺术</h3>
@@ -795,95 +1214,125 @@ HTML{
             <div class="section-header">
                 <h2>视频 <span class="highlight">库</span></h2>
                 <p>用动态影像传递情感与故事</p>
-</div>
-<div class="video-grid">
-<! -- 视频 1 -->
-<div class="显卡">
-<div class="video-box">
-<！--视频资源：assets/video/demo1.mp4或使用在线示例-->
-<video id="vid1"静音循环播放inline preload="metadata">
-<source src="https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/launch/251118/vosa/phones/mate80-pro-max-video.mp4"type="video/mp4"/>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-box">
+                        <video id="vid1" muted loop playsinline preload="metadata">
+                            <source src="https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/launch/251118/vosa/phones/mate80-pro-max-video.mp4" type="video/mp4" />
                             您的浏览器不支持视频播放。
-</video>
-<div class="play-overlay"onclick="toggleVideo('vid1')">
-<svg viewBox="002424"><polygon points="5，319，125，21"/></svg>
-</div>
-</div>
-<div class="info">
-<h3>华为-手机</h3>
-<p>4K华为Mate80Pro Max风驰版·2026</p>
-</div>
-</div>
-<! -- 视频 2 -->
-<div class="显卡">
-<div class="video-box">
-<video id="vid2"静音循环播放inline preload="metadata">
-<来源src="https://upos-sz-mirrorhw.bilivideo.com/upgcxcode/45/54/8495445/8495445-1-208.mp4?e=ig8euxZM2rNcNbNMhbdVhwdlhbKghwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&oi=0x240e04380621dfa2285e11fffe272da9&uipk=5&platform=html5&trid=f5ff292065624777908a885918e0dbfh&os=hwbv&nbs=1&mid=0&deadline=1785496666&gen=playurlv3&og=hw&upsig=661ca137db9a0353de194d40a08e38e5&uparams=e,oi,uipk,platform,trid,os,nbs,mid,deadline,gen,og&bvc=vod&nettype=0&bw=1945629&lrs=-1&agrR=1&buvid=&build=0&dl=0&f=h_0_0&orderid=0，1"type="video/mp4"/>
+                        </video>
+                        <div class="play-overlay" onclick="toggleVideo('vid1')">
+                            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h3>华为 · 手机</h3>
+                        <p>4K HUAWEI Mate 80 Pro Max 风驰版 · 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-box">
+                        <video id="vid2" muted loop playsinline preload="metadata">
+                            <source src="https://upos-sz-mirrorhw.bilivideo.com/upgcxcode/45/54/8495445/8495445-1-208.mp4?e=ig8euxZM2rNcNbNMhbdVhwdlhbKghwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&oi=0x240e04380621dfa2285e11fffe272da9&uipk=5&platform=html5&trid=f5ff292065624777908a885918e0dbfh&os=hwbv&nbs=1&mid=0&deadline=1785496666&gen=playurlv3&og=hw&upsig=661ca137db9a0353de194d40a08e38e5&uparams=e,oi,uipk,platform,trid,os,nbs,mid,deadline,gen,og&bvc=vod&nettype=0&bw=1945629&lrs=-1&agrr=1&buvid=&build=0&dl=0&f=h_0_0&orderid=0,1" type="video/mp4" />
                             您的浏览器不支持视频播放。
-</video>
-<div class="play-overlay"onclick="toggleVideo('vid2')">
-<svg viewBox="002424"><polygon points="5，319，125，21"/></svg>
-</div>
-</div>
-<div class="info">
-<h3>地球刺-宇宙</h3>
-<p>宇宙-超震撼！·2026</p>
-</div>
-</div>
-</div>
-</div>
-</section>
+                        </video>
+                        <div class="play-overlay" onclick="toggleVideo('vid2')">
+                            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h3>地球刺 · 宇宙</h3>
+                        <p>宇宙超震撼 · 2026</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<! -- ========== 关于 / 联系 ========== -->
-<section class="section"id="about">
-<div class="container">
-<div class="about-grid">
-<div class="about-text">
-<h2>关于<span class="highlight">TGNMOS</span></h2>
-<p>
-我们是一支跨学科的创意团队，致力于将艺术、设计与技术融合，
+    <!-- ========== 关于 / 联系 ========== -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>关于 <span class="highlight">TGNMOS</span></h2>
+                    <p>
+                        我们是一支跨学科的创意团队，致力于将艺术、设计与技术融合，
                         为品牌和机构提供具有前瞻性的视觉解决方案。
                         从品牌策略到影像制作，从空间设计到数字交互，
                         我们以叙事为核心，创造有温度、有力量的视觉体验。
-</p>
-<p>
-合作联系：<strong>18984583543@163.com</strong>
-</p>
-<div class="社交链接">
-<! -- 4 个链接 (社交/联系) 加上官网本身共4个主要链接 -->
-<a href="https://weibo.com/u/8000934642"target="_blank">📸 微博</a>
-<a href="https://qun.qq.com/universal-share/share?ac=1&authKey=XgCHZOzh4pgkUV0AuWq%2F1M1zOiuihF%2B59EeLFPlbsdbk9yj2TaxhTEZ%2FFsaNYikV&busi_data=eyJncm91cENvZGUiOiIxMDg0Nzc1NTUwIiwidG9rZW4iOiI5TEZZU1VYZXJUSHEwSGNKdE1rWUIydkxOR0IzbmU4b3p1dGpUckhLWWhUblZncjdWSnd4cUtkaUgyaERtK0MxIiwidWluIjoiMzQ4NTYxNjI1OSJ9&data=o6O9k9iMw5xBEs_5uJObIJj_qTYV-7z0GkXo7qzyQ6LSkR85_tELIV_EGB3Qq_lIeyilKo1O4SPDOo9cT3i6uA&svctype=4&tempid=h5_group_info" target="_blank">🐦 Q群聊</a>
-<a href="#"target="_blank"> 🛠️敬请期待</a>
-<a href="mailto:18984583543@163.com？subject=网站咨询&body=您好，我想咨询..."target="_blank">📧 邮箱</a>
-</div>
-<p style="margin-top:20px；font-size:0.9rem；color:var(--text-secondary)；">
-                        以上,欢迎大家好！。
-</p>
-</div>
-<div class="about-image">
-<div class="img-包装器">
-<img src="https://picsum.photos/seed/about/800/600"alt="关于TGNMOS"loading="lazy"/>
-</div>
-</div>
-</div>
-</div>
-</section>
+                    </p>
+                    <p>
+                        合作联系：<strong>hello@tgnmos.studio</strong>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://weibo.com/u/8000934642" target="_blank">📸 微博</a>
+                        <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=XgCHZOzh4pgkUV0AuWq%2F1M1zOiuihF%2B59EeLFPlbsdbk9yj2TaxhTEZ%2FFsaNYikV&busi_data=eyJncm91cENvZGUiOiIxMDg0Nzc1NTUwIiwidG9rZW4iOiI5TEZZU1VYZXJUSHEwSGNKdE1rWUIydkxOR0IzbmU4b3p1dGpUckhLWWhUblZncjdWSnd4cUtkaUgyaERtK0MxIiwidWluIjoiMzQ4NTYxNjI1OSJ9&data=o6O9k9iMw5xBEs_5uJObIJj_qTYV-7z0GkXo7qzyQ6LSkR85_tELIV_EGB3Qq_lIeyilKo1O4SPDOo9cT3i6uA&svctype=4&tempid=h5_group_info" target="_blank">🐦 Q群聊</a>
+                        <a href="#" target="_blank">🛠️ 敬请期待</a>
+                        <a href="mailto:18984583543@163.com?subject=网站咨询&body=您好，我想咨询..." target="_blank">📧 邮箱</a>
+                    </div>
+                    <p style="margin-top:20px; font-size:0.9rem; color:var(--text-secondary);">
+                        以上，欢迎大家好！
+                    </p>
+                </div>
+                <div class="about-image">
+                    <div class="img-wrapper">
+                        <img src="https://picsum.photos/seed/about/800/600" alt="关于 TGNMOS" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<! -- ========== 页脚 (创作者标注) ========== -->
-<页脚班级="页脚">
-<div class="container">
-<div class="creator">
-✦ 作者：<span class="accent">@TGNMOS- 合作</span> ✦
-</div>
-<div class="copy">
-&copy；2026TGNMOS Studio&middot；用<a href=""target="_blank"></a>与 ❤️ 构建&middot；所有权利保留
-</div>
+    <!-- ========== 页脚 ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="creator">
+                ✦ 创作者：<span class="accent">@TGNMOS-合作</span> ✦
+            </div>
+            <div class="copy">
+                &copy; 2026 TGNMOS Studio &middot; 用 ❤️ 构建 &middot; 所有权利保留
+            </div>
         </div>
     </footer>
 
+    <!-- ============================================================
+    ★★★ 新增：网络状态浮动面板 ★★★
+    ============================================================ -->
+    <div class="network-panel" id="networkPanel">
+        <!-- 面板头部：状态指示灯 + 状态文字 -->
+        <div class="panel-header">
+            <span class="status-dot online" id="statusDot"></span>
+            <span class="status-label">
+                服务器 <span class="server-status-text" id="serverStatusText">在线</span>
+            </span>
+        </div>
+        <!-- 面板主体 -->
+        <div class="panel-body">
+            <!-- 延迟行 -->
+            <div class="panel-row">
+                <span class="label">⏱ 延迟</span>
+                <span class="value latency-off" id="latencyValue">--</span>
+            </div>
+            <!-- 开关行 -->
+            <div class="panel-row">
+                <span class="label">📡 延迟网络</span>
+                <div class="switch-wrapper">
+                    <span class="switch-label" id="switchLabel">关</span>
+                    <label class="switch" title="开启/关闭延迟模拟">
+                        <input type="checkbox" id="latencyToggle" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== JavaScript ========== -->
     <script>
-        // ===== 1. 汉堡菜单切换 =====
+        // =============================================================
+        // 1. 汉堡菜单
+        // =============================================================
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
 
@@ -892,7 +1341,6 @@ HTML{
             navLinks.classList.toggle('open');
         });
 
-        // 点击导航链接后自动关闭菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
@@ -900,7 +1348,9 @@ HTML{
             });
         });
 
-        // ===== 2. 滚动激活导航高亮 =====
+        // =============================================================
+        // 2. 滚动激活导航高亮
+        // =============================================================
         const sections = document.querySelectorAll('section[id]');
         const navLinkItems = document.querySelectorAll('.nav-links a');
 
@@ -924,7 +1374,9 @@ HTML{
         window.addEventListener('scroll', updateActiveLink);
         window.addEventListener('load', updateActiveLink);
 
-        // ===== 3. 视频播放/暂停控制 =====
+        // =============================================================
+        // 3. 视频控制
+        // =============================================================
         function toggleVideo(videoId) {
             const video = document.getElementById(videoId);
             if (!video) return;
@@ -939,7 +1391,6 @@ HTML{
             }
         }
 
-        // 视频播放结束时重置 overlay
         document.querySelectorAll('video').forEach(v => {
             v.addEventListener('ended', function() {
                 const overlay = this.parentElement.querySelector('.play-overlay');
@@ -957,7 +1408,9 @@ HTML{
             });
         });
 
-        // ===== 4. 平滑滚动 (兼容) =====
+        // =============================================================
+        // 4. 平滑滚动
+        // =============================================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
@@ -970,11 +1423,225 @@ HTML{
             });
         });
 
-        // ===== 5. 控制台彩蛋 =====
-        console.log('%c✦ TGNMOS Studio ✦', 'font-size:20px; font-weight:bold; color:#e8b84b;');
-        console.log('%c创作者 @TGNMOS-合作  |  + ❤️ 构建', 'font-size:14px; color:#b0b0c8;');
-        console.log('%c欢迎合作！', 'font-size:12px; color:#e8b84b;');
-    </script>
+        // =============================================================
+        // 5. ★★★ 网络状态面板逻辑 ★★★
+        // =============================================================
+        (function() {
+            // DOM 引用
+            const statusDot = document.getElementById('statusDot');
+            const serverStatusText = document.getElementById('serverStatusText');
+            const latencyValue = document.getElementById('latencyValue');
+            const latencyToggle = document.getElementById('latencyToggle');
+            const switchLabel = document.getElementById('switchLabel');
+
+            // 状态变量
+            let isLatencyOn = false; // 延迟开关状态
+            let isOnline = true; // 服务器在线状态
+            let latencyInterval = null;
+            let currentLatency = 0;
+
+            // ===== 更新 UI =====
+            function updateUI() {
+                // 更新状态指示灯和文字
+                if (isOnline) {
+                    statusDot.className = 'status-dot online';
+                    serverStatusText.textContent = '在线';
+                    serverStatusText.style.color = '#2ecc71';
+                } else {
+                    statusDot.className = 'status-dot offline';
+                    serverStatusText.textContent = '离线';
+                    serverStatusText.style.color = '#e74c3c';
+                }
+
+                // 更新延迟显示
+                if (isLatencyOn && isOnline) {
+                    // 延迟开启且服务器在线 → 显示实时延迟
+                    latencyValue.textContent = currentLatency + 'ms';
+                    latencyValue.className = 'value latency-on';
+
+                    // 根据延迟值改变颜色
+                    if (currentLatency > 200) {
+                        latencyValue.className = 'value latency-critical';
+                    } else if (currentLatency > 100) {
+                        latencyValue.className = 'value latency-high';
+                    } else {
+                        latencyValue.className = 'value latency-on';
+                    }
+                } else if (!isOnline) {
+                    // 服务器离线 → 显示 "--"
+                    latencyValue.textContent = '--';
+                    latencyValue.className = 'value latency-off';
+                } else {
+                    // 延迟关闭 → 显示 "--"
+                    latencyValue.textContent = '--';
+                    latencyValue.className = 'value latency-off';
+                }
+
+                // 更新开关标签
+                switchLabel.textContent = isLatencyOn ? '开' : '关';
+                switchLabel.style.color = isLatencyOn ? 'var(--accent)' : 'var(--text-secondary)';
+            }
+
+            // ===== 生成随机延迟 (10~250ms) =====
+            function generateLatency() {
+                return Math.floor(Math.random() * 240) + 10;
+            }
+
+            // ===== 更新延迟数值（周期性） =====
+            function updateLatencyValue() {
+                if (isLatencyOn && isOnline) {
+                    currentLatency = generateLatency();
+                    updateUI();
+                }
+            }
+
+            // ===== 启动/停止延迟更新 =====
+            function toggleLatencyUpdater(enable) {
+                if (latencyInterval) {
+                    clearInterval(latencyInterval);
+                    latencyInterval = null;
+                }
+                if (enable && isOnline) {
+                    // 立即生成一个初始值
+                    currentLatency = generateLatency();
+                    updateUI();
+                    // 每 1.2~2.5 秒变化一次
+                    latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
+                } else {
+                    // 停止更新
+                    currentLatency = 0;
+                    updateUI();
+                }
+            }
+
+            // ===== 切换服务器状态（在线/离线） =====
+            function toggleServerStatus() {
+                isOnline = !isOnline;
+                // 如果切换到离线，停止延迟更新
+                if (!isOnline) {
+                    if (latencyInterval) {
+                        clearInterval(latencyInterval);
+                        latencyInterval = null;
+                    }
+                    currentLatency = 0;
+                    updateUI();
+                } else {
+                    // 如果切换到在线，且延迟开关开启，则启动更新
+                    if (isLatencyOn) {
+                        currentLatency = generateLatency();
+                        updateUI();
+                        if (latencyInterval) {
+                            clearInterval(latencyInterval);
+                            latencyInterval = null;
+                        }
+                        latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
+                    } else {
+                        updateUI();
+                    }
+                }
+                updateUI();
+            }
+
+            // ===== 处理开关切换 =====
+            function handleToggleChange() {
+                isLatencyOn = latencyToggle.checked;
+
+                if (isLatencyOn && isOnline) {
+                    // 开启延迟，且服务器在线 → 开始更新
+                    currentLatency = generateLatency();
+                    updateUI();
+                    if (latencyInterval) {
+                        clearInterval(latencyInterval);
+                        latencyInterval = null;
+                    }
+                    latencyInterval = setInterval(updateLatencyValue, 1200 + Math.random() * 1300);
+                } else {
+                    // 关闭延迟 或 服务器离线 → 停止更新
+                    if (latencyInterval) {
+                        clearInterval(latencyInterval);
+                        latencyInterval = null;
+                    }
+                    currentLatency = 0;
+                    updateUI();
+                }
+                updateUI();
+            }
+
+            // ===== 初始化 =====
+            function init() {
+                // 默认：服务器在线，延迟关闭
+                isOnline = true;
+                isLatencyOn = false;
+                latencyToggle.checked = false;
+                currentLatency = 0;
+                updateUI();
+
+                // 监听开关变化
+                latencyToggle.addEventListener('change', handleToggleChange);
+
+                // ★ 双击状态指示灯切换服务器在线/离线（模拟"没有服务器"场景）
+statusDot.addEventListener('dblclick'，函数(e){
+E.停止传播()；
+toggleServerStatus()；
+                    // 如果切换到离线，强制关闭延迟开关
+if(！isOnline){
+latencyToggle.checked=false；
+isLatencyOn=false；
+if(latencyInterval){
+clearInterval(latencyInterval)；
+latencyInterval=null；
+                        }
+currentLatency=0；
+updateUI()；
+}else{
+                        // 如果切换到在线，恢复开关状态
+                        // 但保持开关状态不变，由用户决定
+                        // 如果之前是开启状态，需要重新启动
+if(isLatencyOn){
+//但这里isLatencyOn已经是false了，因为上面强制关闭了
+                            // 所以我们只更新UI，不自动开启
+                        }
+updateUI()；
+                    }
+// 显示提示（在控制台）
+console.log('🔄 服务器状态切换为：${isOnline？'在线'：'离线'}‘)；
+                });
+
+                // 提示用户双击指示灯切换服务器状态
+console.log('💡 双击状态指示灯可切换服务器在线/离线模式')；
+console.log('💡 开启"延迟网络"开关可模拟网络延迟')；
+
+                // 额外：点击面板不冒泡
+文件。getElementById('networkPanel').AddEventListener('click'，函数(e){
+E.停止传播()；
+                });
+            }
+
+// 页面加载完成后初始化
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded'，init)；
+}else{
+init()；
+            }
+
+            // 暴露一些变量到全局，方便调试
+window.__networkPanel={
+toggleServer:toggleServerStatus，
+isOnline：()=>isOnline，
+isLatencyOn：()=>isLatencyOn，
+getLatency：()=>currentLatency，
+            };
+
+        })();
+
+//=============================================================
+        // 6. 控制台彩蛋
+//=============================================================
+console.log('%c✦ TGNMOS Studio ✦'，'font-size:20px；font-weight:bold；color：#e8b84b；')；
+console.log('%c创作者@TGNMOS- 合作|用 ❤️ 构建'，'font-size:14px；color：#b0b0c8；')；
+console.log('%c💡 双击右下角网络面板的指示灯可切换服务器状态'，'font-size:12px；color：#e8b84b；')；
+console.log('%c📡 开启"延迟网络"开关体验延迟模拟'，'font-size:12px；color：#e8b84b；')；
+</script>
 
 </body>
 </html>
