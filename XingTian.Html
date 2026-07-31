@@ -1,1708 +1,950 @@
-<!DOCTYPE html>
+<！doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>TGNMOS · 创意作品集</title>
-    <!-- 使用 HTTPS 协议引用字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
-    <style>
-        /* ============================================================
-                   全局重置 & 变量
-                   ============================================================ */
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<meta charset="UTF-8"/>
+<meta name="viewport"content="width=设备宽度，初始比例=1.0，最大比例=1.0，用户可缩放=无，viewport-fit=cover"/>
+<title>TGNMOS·创想无限</title>
+<style>
+/* ===== 全局重置 ===== */
+* {
+页边距：0；
+填充：0；
+框大小：边框框；
         }
 
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a2e;
-            --bg-input: #1e1e32;
-            --text-primary: #f0f0f5;
-            --text-secondary: #b0b0c8;
-            --text-muted: #6a6a82;
-            --accent: #e8b84b;
-            --accent-glow: rgba(232, 184, 75, 0.2);
-            --accent-dim: rgba(232, 184, 75, 0.08);
-            --border-light: rgba(255, 255, 255, 0.06);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+：root{
+--金：#f0c040；
+            --gold-glow: #ffd700;
+--深色：#0a0a0a；
+--暗卡：#141414；
+--边界辉光：rgba(240，192，64，0.3)；
+--text-light：#e8e8e8；
+--shadow-heavy:020px 60px rgba(0，0，0，0.9)；
         }
 
-        html {
-            scroll-behavior: smooth;
+HTML{
+字体大小：18px；
+滚动行为：平滑；
         }
 
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
+正文{
+font-family：'pingfang SC'，'Helvetica Neue'，'Segoe UI'，system-ui，-apple-system，sans-serif；
+            background: var(--dark);
+颜色：var(--text-light)；
+最低高度：100vh；
+overflow-x：隐藏；
+显示：柔性；
+对齐-内容：居中；
+对齐项目：灵活启动；
+填充：12px040px0；
+背景图像：
+径向梯度(椭圆20%50%，rgba(240，192，64，0.06)0%，透明60%)，
+径向梯度(椭圆80%20%，rgba(240，192，64，0.04)0%，透明50%)，
+线性梯度(180度，#0a0a0a 0%，#111111100%)；
+背景附着：固定；
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        img,
-        video {
-            max-width: 100%;
-            display: block;
-            border-radius: var(--radius-sm);
-        }
-        button {
-            font-family: inherit;
-            cursor: pointer;
-            border: none;
-            background: none;
-            color: inherit;
+.app-container{
+宽度：100%；
+最大宽度：480px；
+填充：016px；
+位置：相对；
+Z指数：1；
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+/* ===== 加载遮罩 ===== */
+#loading-overlay{
+位置：固定；
+插图：0；
+            background: var(--dark);
+显示：柔性；
+弯曲方向：立柱；
+对齐项：居中；
+对齐-内容：居中；
+Z指数：9999；
+过渡：不透明度0.8s缓解，可见度0.8s缓解；
         }
-
-        /* ============================================================
-                   导航栏
-                   ============================================================ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            padding: 16px 0;
-            background: rgba(10, 10, 15, 0.78);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border-light);
-            transition: var(--transition);
+#loading-overlay.hidden{
+不透明度：0；
+可见性：隐藏；
+指针事件：无；
         }
-
-        .navbar .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+.加载器环{
+宽度：70px；
+高度：70px；
+边界半径：50%；
+边框：4px纯透明；
+border-top-color:var(--gold)；
+            border-bottom-color: var(--gold);
+动画：旋转1.2s三次贝塞尔(0.6，0.0，0.4，1.0)无限；
+位置：相对；
+盒阴影：0030px rgba(240，192，64，0.15)；
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--accent), #d4a02b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+.loader环：：在{之后
+内容：“”；
+位置：绝对；
+插图：10px；
+边界半径：50%；
+边框：3px实体透明；
+border-left-color:rgba(240，192，64，0.5)；
+边框右色：rgba(240，192，64，0.5)；
+动画：旋转0.8s线性无限反转；
         }
-        .logo span {
-            font-weight: 400;
-            -webkit-text-fill-color: var(--text-secondary);
-            opacity: 0.5;
+.loader-text{
+            margin-top: 28px;
             font-size: 0.9rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.7;
+            font-weight: 300;
+            animation: pulseText 1.8s ease-in-out infinite;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            position: relative;
-            letter-spacing: 0.3px;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -4px;
-            width: 0;
+        .loader-progress {
+            margin-top: 16px;
+            width: 160px;
             height: 2px;
-            background: var(--accent);
-            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 4px;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .nav-links a.active {
-            color: var(--accent);
-        }
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        /* 汉堡菜单 */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 4px;
-            z-index: 1000;
-        }
-        .hamburger span {
-            display: block;
-            width: 26px;
-            height: 2.5px;
-            background: var(--text-primary);
-            border-radius: 4px;
-            transition: var(--transition);
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        /* ============================================================
-                   Hero 区域 · 动画字体
-                   ============================================================ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 120px 0 80px;
-            position: relative;
             overflow: hidden;
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -10%;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: pulseGlow 8s ease-in-out infinite alternate;
+        .loader-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-glow));
+            border-radius: 4px;
+            animation: progressFill 2.4s ease-in-out forwards;
         }
 
-        @keyframes pulseGlow {
-            0% {
-                transform: scale(1);
-                opacity: 0.6;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
+        }
+        @keyframes pulseText {
+            0%,
             100% {
-                transform: scale(1.2);
+                opacity: 0.4;
+            }
+            50% {
                 opacity: 1;
             }
         }
+        @keyframes progressFill {
+            0% {
+                width: 0%;
+            }
+            40% {
+                width: 42%;
+            }
+            70% {
+                width: 78%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
 
-        .hero .container {
+        /* ===== 头部 ===== */
+        .header {
+            text-align: center;
+            padding: 28px 0 16px 0;
             position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
         }
 
-        .hero-content h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 16px;
+        .brand-badge {
+            display: inline-block;
+            background: rgba(240, 192, 64, 0.10);
+            border: 1px solid rgba(240, 192, 64, 0.20);
+            border-radius: 100px;
+            padding: 6px 20px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+            margin-bottom: 12px;
         }
 
-        /* ===== 动画字体 ===== */
-        .hero-content h1 .highlight {
-            background: linear-gradient(135deg, var(--accent), #f5d67a, var(--accent));
-            background-size: 200% 200%;
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            margin: 8px 0 4px 0;
+            background: linear-gradient(135deg, #f0c040 0%, #ffd700 40%, #f5a623 70%, #f0c040 100%);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmerText 4s ease-in-out infinite;
+            animation: gradientShift 4s ease-in-out infinite alternate;
+            text-shadow: 0 0 40px rgba(240, 192, 64, 0.15);
             display: inline-block;
         }
-
-        @keyframes shimmerText {
-            0%,
-            100% {
+        .hero-title::after {
+            content: '✦';
+            font-size: 1.8rem;
+            -webkit-text-fill-color: initial;
+            color: var(--gold);
+            opacity: 0.5;
+            margin-left: 6px;
+            display: inline-block;
+            animation: sparkle 2.4s ease-in-out infinite;
+        }
+        @keyframes gradientShift {
+            0% {
                 background-position: 0% 50%;
             }
             50% {
                 background-position: 100% 50%;
             }
-        }
-
-        .hero-content .sub-title {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 480px;
-            margin-bottom: 32px;
-            line-height: 1.8;
-            animation: fadeUp 0.8s ease-out 0.3s both;
-        }
-
-        .hero-content .sub-title .accent-text {
-            color: var(--accent);
-            -webkit-text-fill-color: var(--accent);
-            font-weight: 600;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+            100% {
+                background-position: 0% 50%;
             }
-            to {
+        }
+        @keyframes sparkle {
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.9) rotate(0deg);
+            }
+            50% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1.2) rotate(20deg);
             }
         }
 
-        /* 打字效果装饰 */
-        .typing-decoration {
-            display: inline-block;
-            font-weight: 600;
-            color: var(--accent);
-            background: var(--accent-dim);
-            padding: 2px 16px;
-            border-radius: 40px;
+        .hero-sub {
             font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(232, 184, 75, 0.15);
-            margin-bottom: 12px;
-            animation: fadeUp 0.6s ease-out 0.1s both;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 6px;
+            margin-top: 4px;
+            text-transform: uppercase;
         }
 
-        .hero-buttons {
+        .divider {
             display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            animation: fadeUp 0.8s ease-out 0.5s both;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0 22px 0;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240, 192, 64, 0.25), transparent);
+        }
+        .divider-icon {
+            color: var(--gold);
+            font-size: 0.7rem;
+            opacity: 0.5;
+            letter-spacing: 4px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 14px 36px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            letter-spacing: 0.3px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #c9962a);
-            color: #0a0a0f;
-            box-shadow: 0 8px 30px rgba(232, 184, 75, 0.25);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 44px rgba(232, 184, 75, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-        }
-        .btn-outline:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        .hero-image .img-wrapper {
-            width: 100%;
-            max-width: 560px;
-            aspect-ratio: 4/3;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--border-light);
-            background: var(--bg-secondary);
+        /* ===== 动态文字艺术 ===== */
+        .type-art {
+            background: var(--dark-card);
+            border-radius: 24px;
+            padding: 28px 18px 24px 18px;
+            margin: 6px 0 22px 0;
+            border: 1px solid rgba(240, 192, 64, 0.08);
+            box-shadow: var(--shadow-heavy), inset 0 0 60px rgba(240, 192, 64, 0.02);
             position: relative;
-            transition: var(--transition);
+            overflow: hidden;
+        }
+        .type-art::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(240, 192, 64, 0.03) 25%, transparent 50%, rgba(240, 192, 64, 0.03) 75%, transparent 100%);
+            animation: rotateBg 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes rotateBg {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        .hero-image .img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: var(--bg-primary);
-            transition: var(--transition);
+        .type-art-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
-        .hero-image .img-wrapper:hover img {
+
+        .art-line {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, #f0c040, #ff8c00, #f0c040);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 60px rgba(240, 192, 64, 0.1);
+            transition: transform 0.3s;
+        }
+        .art-line:hover {
             transform: scale(1.02);
         }
 
-        .hero-image .img-wrapper .browser-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 6px 14px;
-            background: rgba(10, 10, 15, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-top: 1px solid var(--border-light);
-            border-radius: 0 0 var(--radius) var(--radius);
-            letter-spacing: 0.3px;
-        }
-        .hero-image .img-wrapper .browser-bar .dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #e74c3c;
-            margin-right: 2px;
-        }
-        .hero-image .img-wrapper .browser-bar .dot:nth-child(2) {
-            background: #f1c40f;
-        }
-        .hero-image .img-wrapper .browser-bar .dot:nth-child(3) {
-            background: #2ecc71;
-        }
-        .hero-image .img-wrapper .browser-bar .url {
-            flex: 1;
-            text-align: center;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.6rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* ============================================================
-                   通用 Section
-                   ============================================================ */
-        .section {
-            padding: 90px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .section-header h2 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-        .section-header h2 .highlight {
-            color: var(--accent);
-        }
-        .section-header p {
-            color: var(--text-secondary);
-            margin-top: 8px;
-            font-size: 1.05rem;
-        }
-
-        .section-header .section-badge {
-            display: inline-block;
-            background: var(--accent-dim);
-            color: var(--accent);
-            padding: 4px 18px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(232, 184, 75, 0.12);
-            margin-bottom: 12px;
+        .art-line-small {
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 12px;
+            color: rgba(255, 255, 255, 0.3);
             text-transform: uppercase;
+            animation: flicker 3.2s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            0%,
+            90%,
+            100% {
+                opacity: 0.25;
+            }
+            92% {
+                opacity: 0.8;
+            }
+            94% {
+                opacity: 0.2;
+            }
+            96% {
+                opacity: 0.9;
+            }
+            98% {
+                opacity: 0.3;
+            }
         }
 
-        /* ============================================================
-                   作品集 · 带点赞 & 评论
-                   ============================================================ */
-        .works-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-
-        .work-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
+        .art-glyph {
             display: flex;
-            flex-direction: column;
+            gap: 18px;
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: rgba(240, 192, 64, 0.25);
+            letter-spacing: 10px;
+            animation: floatGlyph 4s ease-in-out infinite alternate;
+        }
+        .art-glyph span {
+            display: inline-block;
+            animation: glyphPulse 2.8s ease-in-out infinite alternate;
+        }
+        .art-glyph span:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        .art-glyph span:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+        .art-glyph span:nth-child(4) {
+            animation-delay: 1.2s;
+        }
+        .art-glyph span:nth-child(5) {
+            animation-delay: 1.6s;
+        }
+        @keyframes glyphPulse {
+            0% {
+                opacity: 0.2;
+                transform: translateY(0px) scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(-6px) scale(1.1);
+            }
+        }
+        @keyframes floatGlyph {
+            0% {
+                transform: translateY(0px);
+            }
+            100% {
+                transform: translateY(-4px);
+            }
         }
 
-        .work-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(232, 184, 75, 0.2);
-            box-shadow: var(--shadow-card);
+        .art-matrix {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.12);
+            letter-spacing: 4px;
+            font-weight: 300;
+            margin-top: 4px;
+        }
+        .art-matrix span {
+            animation: matrixFade 5s ease-in-out infinite alternate;
+        }
+        .art-matrix span:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+        .art-matrix span:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+        .art-matrix span:nth-child(4) {
+            animation-delay: 1.8s;
+        }
+        .art-matrix span:nth-child(5) {
+            animation-delay: 2.4s;
+        }
+        @keyframes matrixFade {
+            0% {
+                opacity: 0.05;
+            }
+            100% {
+                opacity: 0.4;
+            }
         }
 
-        .work-card .img-box {
-            width: 100%;
-            aspect-ratio: 4/3;
+        /* ===== 图片网格 ===== */
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 14px 0 22px 0;
+        }
+        .image-card {
+            border-radius: 20px;
             overflow: hidden;
-            background: var(--bg-primary);
+            background: var(--dark-card);
+            border: 1px solid rgba(240, 192, 64, 0.10);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
             position: relative;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
         }
-
-        .work-card .img-box img {
+        .image-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(240, 192, 64, 0.30);
+            box-shadow: 0 12px 40px rgba(240, 192, 64, 0.08);
+        }
+        .image-card img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background: var(--bg-primary);
-            transition: var(--transition);
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s;
         }
-
-        .work-card:hover .img-box img {
+        .image-card:hover img {
             transform: scale(1.04);
         }
-
-        .work-card .info {
-            padding: 18px 20px 16px;
-            flex: 1;
+        .image-card .overlay-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            color: var(--gold);
+            text-align: center;
+            letter-spacing: 2px;
+            border: 1px solid rgba(240, 192, 64, 0.10);
+            font-weight: 400;
         }
-
-        .work-card .info .title-row {
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
             display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 100;
+            color: rgba(255, 255, 255, 0.06);
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            position: relative;
+            overflow: hidden;
+        }
+        .img-placeholder .icon-big {
+            font-size: 3.6rem;
+            opacity: 0.15;
+            z-index: 1;
         }
 
-        .work-card .info h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
+        /* ===== 社交链接 ===== */
+        .social-section {
+            margin: 16px 0 18px 0;
         }
-
-        .work-card .info .desc {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        .work-card .info .tag {
-            display: inline-block;
-            margin-top: 8px;
-            font-size: 0.65rem;
-            font-weight: 600;
+        .social-label {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--accent);
-            background: var(--accent-dim);
-            padding: 3px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(232, 184, 75, 0.1);
+            letter-spacing: 6px;
+            color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 16px;
+            font-weight: 300;
         }
 
-        /* ===== 点赞 & 评论区域 ===== */
-        .work-actions {
-            padding: 12px 20px 18px;
-            border-top: 1px solid var(--border-light);
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .social-btn {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 6px;
+            border-radius: 18px;
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.6rem;
+            font-weight: 400;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            gap: 6px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(240, 192, 64, 0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            border-color: rgba(240, 192, 64, 0.20);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(240, 192, 64, 0.06);
+        }
+        .social-btn .icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            margin-bottom: 2px;
+            transition: transform 0.3s;
+        }
+        .social-btn:hover .icon {
+            transform: scale(1.15);
+        }
+        .social-btn .label {
+            font-size: 0.55rem;
+            opacity: 0.5;
+        }
+        .social-btn.gold {
+            border-color: rgba(240, 192, 64, 0.12);
+        }
+        .social-btn.gold .icon {
+            color: var(--gold);
         }
 
-        .like-row {
+        /* ===== 邮箱卡片 ===== */
+        .email-card {
+            margin: 16px 0 18px 0;
+            border-radius: 24px;
+            background: var(--dark-card);
+            border: 1px solid rgba(240, 192, 64, 0.06);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s;
+            box-shadow: var(--shadow-heavy);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .email-card:hover {
+            border-color: rgba(240, 192, 64, 0.20);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(240, 192, 64, 0.04);
+        }
+        .email-card .left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-
-        .like-btn {
+        .email-card .icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: rgba(240, 192, 64, 0.06);
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--gold);
+            border: 1px solid rgba(240, 192, 64, 0.06);
+        }
+        .email-card .info .title {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #fff;
+        }
+        .email-card .info .sub {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 1px;
+        }
+        .email-card .arrow {
+            font-size: 1.2rem;
+            color: rgba(240, 192, 64, 0.2);
+            transition: transform 0.3s;
+        }
+        .email-card:hover .arrow {
+            transform: translateX(4px);
+            color: var(--gold);
+        }
+
+        /* ===== 创作者 ===== */
+        .creator-section {
+            margin: 24px 0 8px 0;
+            text-align: center;
+            padding: 20px 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .creator-name {
             font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            padding: 4px 12px 4px 8px;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid transparent;
+            font-weight: 500;
+            background: linear-gradient(135deg, #f0c040, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        .creator-badge {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.5rem;
+            padding: 4px 14px;
+            border-radius: 30px;
+            background: rgba(240, 192, 64, 0.06);
+            border: 1px solid rgba(240, 192, 64, 0.08);
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .creator-badge strong {
+            color: var(--gold);
+            font-weight: 500;
         }
 
-        .like-btn:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.06);
+        /* ===== 网络状态 ===== */
+        .network-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 18px;
+            font-size: 0.5rem;
+            color: rgba(255, 255, 255, 0.08);
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
-
-        .like-btn.liked {
-            color: #ff6b6b;
+        .network-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(240, 192, 64, 0.15);
+            animation: dotPulse 2.4s ease-in-out infinite;
         }
-        .like-btn.liked .heart-icon {
-            fill: #ff6b6b;
+        .network-status .dot:nth-child(2) {
+            animation-delay: 0.6s;
         }
-
-        .like-btn .heart-icon {
-            width: 20px;
-            height: 20px;
-            transition: var(--transition);
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
+        .network-status .dot:nth-child(3) {
+            animation-delay: 1.2s;
         }
-
-        .like-btn.liked .heart-icon {
-            animation: heartPop 0.4s ease;
-        }
-
-        @keyframes heartPop {
-            0% {
+        @keyframes dotPulse {
+            0%,
+            100% {
+                opacity: 0.1;
                 transform: scale(1);
             }
             50% {
-                transform: scale(1.3);
-            }
-            100% {
-                transform: scale(1);
+                opacity: 0.6;
+                transform: scale(1.4);
             }
         }
-
-        .like-count {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            min-width: 20px;
+        .network-status .label {
+            color: rgba(255, 255, 255, 0.06);
         }
 
-        .comment-toggle {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 4px 10px;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .comment-toggle:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .comment-toggle .icon {
-            font-size: 1.1rem;
-        }
-
-        /* ===== 评论区域 ===== */
-        .comment-section {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border-light);
-            margin-top: 4px;
-        }
-
-        .comment-section.open {
-            display: flex;
-        }
-
-        .comment-list {
-            max-height: 160px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding-right: 4px;
-        }
-
-        .comment-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .comment-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .comment-list::-webkit-scrollbar-thumb {
-            background: var(--text-muted);
+        .latency-bar {
+            margin: 12px 0 6px 0;
+            height: 2px;
             border-radius: 4px;
-        }
-
-        .comment-item {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .comment-item .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--accent-dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: var(--accent);
-            flex-shrink: 0;
-        }
-
-        .comment-item .body {
-            flex: 1;
-            word-break: break-word;
-        }
-        .comment-item .body .name {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-right: 6px;
-        }
-        .comment-item .body .time {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-left: 6px;
-        }
-
-        .comment-input-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .comment-input-row input {
-            flex: 1;
-            padding: 8px 14px;
-            border-radius: 40px;
-            border: 1px solid var(--border-light);
-            background: var(--bg-input);
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            outline: none;
-            transition: var(--transition);
-            font-family: var(--font-family);
-        }
-
-        .comment-input-row input::placeholder {
-            color: var(--text-muted);
-        }
-        .comment-input-row input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(232, 184, 75, 0.08);
-        }
-
-        .comment-submit {
-            padding: 8px 18px;
-            border-radius: 40px;
-            background: var(--accent);
-            color: #0a0a0f;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .comment-submit:hover {
-            background: #d4a02b;
-            transform: scale(1.03);
-        }
-
-        .no-comments {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 8px 0;
-        }
-
-        /* ============================================================
-                   视频库
-                   ============================================================ */
-        .video-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-        }
-
-        .video-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-        }
-
-        .video-card:hover {
-            border-color: rgba(232, 184, 75, 0.2);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-card);
-        }
-
-        .video-card .video-box {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
+            background: rgba(255, 255, 255, 0.02);
             overflow: hidden;
             position: relative;
         }
-
-        .video-card .video-box video {
-            width: 100%;
+        .latency-bar .fill {
             height: 100%;
-            object-fit: contain;
-            background: #000;
+            width: 0%;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            animation: latencySweep 3.8s ease-in-out infinite alternate;
+            border-radius: 4px;
         }
-
-        .video-card .video-box .play-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.35);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .video-card .video-box .play-overlay:hover {
-            background: rgba(0, 0, 0, 0.15);
-        }
-
-        .video-card .video-box .play-overlay svg {
-            width: 64px;
-            height: 64px;
-            fill: rgba(255, 255, 255, 0.9);
-            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.6));
-            transition: var(--transition);
-        }
-
-        .video-card .video-box .play-overlay:hover svg {
-            transform: scale(1.08);
-            fill: var(--accent);
-        }
-
-        .video-card .info {
-            padding: 18px 22px 22px;
-        }
-        .video-card .info h3 {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-        .video-card .info p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        /* ============================================================
-                   关于
-                   ============================================================ */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-
-        .about-text h2 {
-            font-size: 2.4rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-        .about-text h2 .highlight {
-            color: var(--accent);
-        }
-        .about-text p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-
-        .about-text .social-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-
-        .about-text .social-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
-            border-radius: 40px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-
-        .about-text .social-links a:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(232, 184, 75, 0.1);
-        }
-
-        .about-image .img-wrapper {
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            background: var(--bg-secondary);
-            aspect-ratio: 4/3;
-        }
-
-        .about-image .img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: var(--bg-primary);
-        }
-
-        /* ============================================================
-                   页脚
-                   ============================================================ */
-        .footer {
-            padding: 40px 0 32px;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-        }
-
-        .footer .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .footer .creator {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .footer .creator .accent {
-            color: var(--accent);
-        }
-        .footer .copy {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        .footer .copy a {
-            color: var(--accent);
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        .footer .copy a:hover {
-            opacity: 0.7;
-        }
-
-        /* ============================================================
-                   响应式
-                   ============================================================ */
-        @media (max-width: 1024px) {
-            .hero .container {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 40px;
+        @keyframes latencySweep {
+            0% {
+                width: 0%;
+                opacity: 0.2;
             }
-            .hero-content .sub-title {
-                margin-left: auto;
-                margin-right: auto;
+            30% {
+                width: 60%;
+                opacity: 0.8;
             }
-            .hero-buttons {
-                justify-content: center;
+            60% {
+                width: 30%;
+                opacity: 0.4;
             }
-            .hero-image .img-wrapper {
-                max-width: 100%;
+            90% {
+                width: 90%;
+                opacity: 0.9;
             }
-            .works-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .about-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .about-text .social-links {
-                justify-content: center;
+            100% {
+                width: 100%;
+                opacity: 0.3;
             }
         }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 72%;
-                max-width: 300px;
-                height: 100vh;
-                background: var(--bg-secondary);
-                flex-direction: column;
-                justify-content: center;
-                padding: 40px;
-                gap: 28px;
-                transition: var(--transition);
-                border-left: 1px solid var(--border-light);
-                backdrop-filter: blur(20px);
+        /* ===== 响应式 ===== */
+        @media (max-width: 420px) {
+            .hero-title {
+                font-size: 2.2rem;
             }
-            .nav-links.open {
-                right: 0;
+            .art-line {
+                font-size: 1.4rem;
+                letter-spacing: 4px;
             }
-            .hamburger {
-                display: flex;
+            .social-grid {
+                gap: 8px;
             }
-
-            .hero {
-                padding: 100px 0 60px;
-                min-height: auto;
-            }
-            .hero-content h1 {
-                font-size: 2.6rem;
-            }
-            .hero-image .img-wrapper {
-                aspect-ratio: 16/10;
-                max-width: 100%;
-                border-radius: 12px;
-            }
-            .hero-image .img-wrapper .browser-bar {
-                padding: 4px 12px;
-                font-size: 0.55rem;
-                gap: 6px;
-            }
-            .hero-image .img-wrapper .browser-bar .dot {
-                width: 8px;
-                height: 8px;
-            }
-            .hero-image .img-wrapper .browser-bar .url {
+            .social-btn {
+                padding: 12px 4px;
                 font-size: 0.5rem;
             }
-
-            .section {
-                padding: 60px 0;
+            .social-btn .icon {
+                font-size: 1.3rem;
             }
-            .section-header h2 {
-                font-size: 2rem;
+            .image-grid {
+                gap: 10px;
             }
-            .works-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .email-card {
+                padding: 14px 16px;
             }
-            .video-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-            .about-text h2 {
-                font-size: 1.8rem;
-            }
-            .navbar {
-                padding: 14px 0;
-            }
-
-            .work-card .img-box {
-                aspect-ratio: 16/10;
-            }
-            .work-card .img-box img {
-                object-fit: contain;
-            }
-            .about-image .img-wrapper {
-                aspect-ratio: 16/10;
-            }
-            .about-image .img-wrapper img {
-                object-fit: contain;
-            }
-
-            .work-actions {
-                padding: 10px 16px 14px;
-            }
-            .comment-input-row input {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-            }
-            .comment-submit {
-                padding: 6px 14px;
-                font-size: 0.75rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            .hero-content .sub-title {
-                font-size: 1rem;
-            }
-            .btn {
-                padding: 12px 28px;
-                font-size: 0.85rem;
-            }
-            .container {
-                padding: 0 16px;
-            }
-            .hero-image .img-wrapper {
-                aspect-ratio: 16/9;
-                border-radius: 10px;
-            }
-            .hero-image .img-wrapper .browser-bar {
-                padding: 3px 10px;
-                font-size: 0.45rem;
-            }
-            .hero-image .img-wrapper .browser-bar .dot {
-                width: 6px;
-                height: 6px;
-            }
-            .hero-image .img-wrapper .browser-bar .url {
-                font-size: 0.4rem;
-            }
-            .section-header h2 {
-                font-size: 1.6rem;
-            }
-            .logo {
+            .email-card .icon-wrap {
+                width: 38px;
+                height: 38px;
                 font-size: 1.2rem;
             }
-            .work-card .info h3 {
-                font-size: 0.95rem;
+        }
+
+        @media (min-width: 600px) {
+            .app-container {
+                max-width: 520px;
+            }
+            .hero-title {
+                font-size: 3.4rem;
             }
         }
 
-        /* ===== 工具类 ===== */
-        .text-center {
-            text-align: center;
+        ::-webkit-scrollbar {
+            width: 3px;
         }
-        .mt-4 {
-            margin-top: 4px;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .mb-8 {
-            margin-bottom: 8px;
-        }
-        .gap-4 {
-            gap: 4px;
-        }
-        .flex {
-            display: flex;
-        }
-        .items-center {
-            align-items: center;
+        ::-webkit-scrollbar-thumb {
+            background: rgba(240, 192, 64, 0.15);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ========== 导航栏 ========== -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <a href="#" class="logo">TGNMOS<span>·Studio</span></a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home" class="active">首页</a></li>
-                <li><a href="#works">作品集</a></li>
-                <li><a href="#videos">视频库</a></li>
-                <li><a href="#about">关于</a></li>
-            </ul>
-            <button class="hamburger" id="hamburger" aria-label="菜单">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+    <!-- ===== 加载遮罩 ===== -->
+    <div id="loading-overlay">
+        <div class="loader-ring"></div>
+        <div class="loader-text">· 延迟连接 ·</div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar"></div>
         </div>
-    </nav>
+        <div style="margin-top:28px;font-size:0.5rem;color:rgba(255,255,255,0.06);letter-spacing:4px;">
+            服务器响应中 ...
+        </div>
+    </div>
 
-    <!-- ========== Hero ========== -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="typing-decoration">✦ 创意无界 · 2026</div>
-                <h1>
-                    创造<br />
-                    <span class="highlight">视觉 · 体验 · 未来</span>
-                </h1>
-                <p class="sub-title">
-                    我们专注于数字创意与品牌视觉设计，
-                    用独特的美学语言讲述每个品牌的故事。
-                    <span class="accent-text">探索影像与交互的无限可能。</span>
-                </p>
-                <div class="hero-buttons">
-                    <a href="#works" class="btn btn-primary">浏览作品</a>
-                    <a href="#about" class="btn btn-outline">了解团队</a>
+    <!-- ===== 主容器 ===== -->
+    <div class="app-container">
+
+        <!-- 头部 -->
+        <header class="header">
+            <div class="brand-badge">✦ 创想实验室</div>
+            <h1 class="hero-title">TGNMOS</h1>
+            <div class="hero-sub">· 数 字 艺 术 工 坊 ·</div>
+        </header>
+
+        <div class="divider">
+            <span class="divider-line"></span>
+            <span class="divider-icon">◆ ◇ ◆</span>
+            <span class="divider-line"></span>
+        </div>
+
+        <!-- ===== 动态文字艺术 ===== -->
+        <section class="type-art">
+            <div class="type-art-content">
+                <div class="art-line">✦ 未 来 之 光 ✦</div>
+                <div class="art-line-small">· 动 态 字 体 设 计 ·</div>
+                <div class="art-glyph">
+                    <span>◈</span>
+                    <span>⬡</span>
+                    <span>✦</span>
+                    <span>⬢</span>
+                    <span>◈</span>
+                </div>
+                <div class="art-matrix">
+                    <span># 代码 7000</span>
+                    <span>· 延迟网络 ·</span>
+                    <span>✦ 黑金美学</span>
+                    <span>⚡ 动画字体</span>
+                    <span>◆ 大屏适配</span>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="img-wrapper">
-                    <img src="https://picsum.photos/seed/hero2026/1200/900" alt="TGNMOS 创意工作室" loading="lazy" />
-                    <div class="browser-bar">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="url">✦ tgnmos.studio / 创意无限</span>
-                        <span style="opacity:0.3;">⬡</span>
-                    </div>
-                </div>
-            </div>
+        </section>
+
+        <!-- ===== 2 个图片链接 ===== -->
+        <div class="image-grid">
+            <!-- 图片 1：替换为真实图片地址 -->
+            <a href="https://weibo.com/8000934642/5322921813738609" class="image-card" target="_blank">
+                <img src="https://picsum.photos/seed/tgnmos1/400/400" alt="视觉探索 01" loading="lazy" />
+                <div class="overlay-label">✦ 视觉探索 · 01</div>
+            </a>
+            <!-- 图片 2：替换为真实图片地址 -->
+            <a href="https://weibo.com/8000934642/5319606743078036" class="image-card" target="_blank">
+                <img src="https://picsum.photos/seed/tgnmos2/400/400" alt="视觉探索 02" loading="lazy" />
+                <div class="overlay-label">✦ 视觉探索 · 02</div>
+            </a>
         </div>
-    </section>
 
-    <!-- ========== 作品集 ========== -->
-    <section class="section" id="works">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">✦ 精选创作</div>
-                <h2>最新 <span class="highlight">作品</span></h2>
-                <p>每个项目都是一次全新的视觉探索 · 点赞 & 评论支持</p>
+        <!-- ===== 4 个社交链接 ===== -->
+        <section class="social-section">
+            <div class="social-label">· 连 接 我 们 ·</div>
+            <div class="social-grid">
+                <!-- 1. 制作中 -->
+                <a href="https://github.com" class="social-btn gold" target="_blank">
+                    <span class="icon">🛠️</span>
+                    <span class="label">敬请期待制作</span>
+                </a>
+                <!-- 2. 工作室 -->
+                <a href="https://dribbble.com" class="social-btn gold" target="_blank">
+                    <span class="icon">🛠️</span>
+                    <span class="label">敬请期待工作室</span>
+                </a>
+                <!-- 3. QQ 群（保留原链接） -->
+                <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=XgCHZOzh4pgkUV0AuWq%2F1M1zOiuihF%2B59EeLFPlbsdbk9yj2TaxhTEZ%2FFsaNYikV&busi_data=eyJncm91cENvZGUiOiIxMDg0Nzc1NTUwIiwidG9rZW4iOiI5TEZZU1VYZXJUSHEwSGNKdE1rWUIydkxOR0IzbmU4b3p1dGpUckhLWWhUblZncjdWSnd4cUtkaUgyaERtK0MxIiwidWluIjoiMzQ4NTYxNjI1OSJ9&data=o6O9k9iMw5xBEs_5uJObIJj_qTYV-7z0GkXo7qzyQ6LSkR85_tELIV_EGB3Qq_lIeyilKo1O4SPDOo9cT3i6uA&svctype=4&tempid=h5_group_info" class="social-btn" target="_blank">
+                    <span class="icon">💬</span>
+                    <span class="label">QQ</span>
+                </a>
+                <!-- 4. 微博（保留原链接） -->
+                <a href="https://weibo.com/u/8000934642" class="social-btn" target="_blank">
+                    <span class="icon">📍</span>
+                    <span class="label">微博</span>
+                </a>
             </div>
-            <div class="works-grid" id="worksGrid">
-                <!-- 作品卡片由 JavaScript 动态生成 -->
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ========== 视频库 ========== -->
-    <section class="section" id="videos" style="background: var(--bg-secondary);">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">▶ 动态影像</div>
-                <h2>视频 <span class="highlight">库</span></h2>
-                <p>用动态影像传递情感与故事</p>
-            </div>
-            <div class="video-grid">
-                <div class="video-card">
-                    <div class="video-box">
-                        <video id="vid1" muted loop playsinline preload="metadata">
-                            <source src="https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/launch/251118/vosa/phones/mate80-pro-max-video.mp4" type="video/mp4" />
-                            您的浏览器不支持视频播放。
-                        </video>
-                        <div class="play-overlay" onclick="toggleVideo('vid1')">
-                            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h3>华为 · 手机</h3>
-                        <p>4K HUAWEI Mate 80 Pro Max 风驰版 · 2026</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <div class="video-box">
-                        <video id="vid2" muted loop playsinline preload="metadata">
-                            <source src="https://upos-sz-mirrorhw.bilivideo.com/upgcxcode/45/54/8495445/8495445-1-208.mp4?e=ig8euxZM2rNcNbNMhbdVhwdlhbKghwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&oi=0x240e04380621dfa2285e11fffe272da9&uipk=5&platform=html5&trid=f5ff292065624777908a885918e0dbfh&os=hwbv&nbs=1&mid=0&deadline=1785496666&gen=playurlv3&og=hw&upsig=661ca137db9a0353de194d40a08e38e5&uparams=e,oi,uipk,platform,trid,os,nbs,mid,deadline,gen,og&bvc=vod&nettype=0&bw=1945629&lrs=-1&agrr=1&buvid=&build=0&dl=0&f=h_0_0&orderid=0,1" type="video/mp4" />
-                            您的浏览器不支持视频播放。
-                        </video>
-                        <div class="play-overlay" onclick="toggleVideo('vid2')">
-                            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" /></svg>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h3>地球刺 · 宇宙</h3>
-                        <p>宇宙超震撼 · 2026</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- ===== 邮箱 ===== -->
+<a href="mailto:18984583543@163.com？subject=网站咨询&body=您好，我想咨询..."班级="电子邮件卡">
+<div class="left">
+<div class="icon-wrap">✉</div>
+<div class="info">
+<div class="title">邮件联系</div>
+<div class="sub">18984583543@163.com</div>
+</div>
+</div>
+<span class="arrow">→</span>
+</a>
 
-    <!-- ========== 关于 ========== -->
-    <section class="section" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2>关于 <span class="highlight">TGNMOS</span></h2>
-                    <p>
-                        我们是一支跨学科的创意团队，致力于将艺术、设计与技术融合，
-                        为品牌和机构提供具有前瞻性的视觉解决方案。
-                        从品牌策略到影像制作，从空间设计到数字交互，
-                        我们以叙事为核心，创造有温度、有力量的视觉体验。
-                    </p>
-                    <p>
-                        邮箱合作联系：<strong style="color:var(--accent);">18984583543@163.com</strong>
-                    </p>
-                    <div class="social-links">
-                        <a href="https://weibo.com/u/8000934642" target="_blank">🌐 微博</a>
-                        <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=XgCHZOzh4pgkUV0AuWq%2F1M1zOiuihF%2B59EeLFPlbsdbk9yj2TaxhTEZ%2FFsaNYikV&busi_data=eyJncm91cENvZGUiOiIxMDg0Nzc1NTUwIiwidG9rZW4iOiI5TEZZU1VYZXJUSHEwSGNKdE1rWUIydkxOR0IzbmU4b3p1dGpUckhLWWhUblZncjdWSnd4cUtkaUgyaERtK0MxIiwidWluIjoiMzQ4NTYxNjI1OSJ9&data=o6O9k9iMw5xBEs_5uJObIJj_qTYV-7z0GkXo7qzyQ6LSkR85_tELIV_EGB3Qq_lIeyilKo1O4SPDOo9cT3i6uA&svctype=4&tempid=h5_group_info" target="_blank">🐦 Q群聊</a>
-                        <a href="#" target="_blank">🛠️ 敬请期待</a>
-                        <a href="mailto:18984583543@163.com?subject=网站咨询&body=您好，我想咨询..." target="_blank">📧 邮箱</a>
-                    </div>
-                    <p style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);">
-                        ✦ 欢迎大家一起交流合作 ✦
-                    </p>
-                </div>
-                <div class="about-image">
-                    <div class="img-wrapper">
-                        <img src="https://picsum.photos/seed/about2026/800/600" alt="关于 TGNMOS" loading="lazy" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<! -- ===== 创作者 ===== -->
+<div class="creator-section">
+<div class="creator-name">QQ账号-TGNMOS认证黄V·合作</div>
+<div class="creator-badge">
+<strong>✦</strong>创意驱动<strong>✦</strong>
+</div>
+</div>
 
-    <!-- ========== 页脚 ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="creator">
-                ✦ 创作者：<span class="accent">@TGNMOS-合作</span> ✦
-            </div>
-            <div class="copy">
-                &copy; 2026 TGNMOS Studio &middot; 用 ❤️ 构建 &middot; 所有权利保留
-            </div>
-        </div>
-    </footer>
+<! -- ===== 网络模拟 ===== -->
+<div class="latency-bar">
+<div class="fill"></div>
+</div>
+<div class="网络状态">
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="label">·延迟服务器·网络稳定·</span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
 
-    <!-- ============================================================
-               JavaScript
-               ============================================================ -->
-    <script>
-        // ============================================================
-        // 1. 作品数据（包含图片、标题、描述、标签）
-        // ============================================================
-        const WORKS_DATA = [{
-            id: 'work1',
-            title: '品牌视觉识别',
-            desc: '为新兴科技品牌打造完整 VI 系统',
-            tag: '品牌设计',
-            img: 'https://picsum.photos/seed/w1/800/600'
-        }, {
-            id: 'work2',
-            title: '沉浸式展览',
-            desc: '互动装置艺术与空间叙事结合',
-            tag: '空间设计',
-            img: 'https://picsum.photos/seed/w2/800/600'
-        }, {
-            id: 'work3',
-            title: '动态影像实验',
-            desc: '实验性短片与视觉特效探索',
-            tag: '影像创作',
-            img: 'https://picsum.photos/seed/w3/800/600'
-        }, {
-            id: 'work4',
-            title: 'UI/UX 设计',
-            desc: '数字产品界面与用户体验设计',
-            tag: '交互设计',
-            img: 'https://picsum.photos/seed/w4/800/600'
-        }, {
-            id: 'work5',
-            title: '时尚摄影',
-            desc: '商业时尚大片与视觉叙事',
-            tag: '摄影',
-            img: 'https://picsum.photos/seed/w5/800/600'
-        }, {
-            id: 'work6',
-            title: '数字艺术',
-            desc: '生成艺术与 NFT 数字藏品',
-            tag: '数字艺术',
-            img: 'https://picsum.photos/seed/w6/800/600'
-        }];
+<div style="文本对齐：居中；上边距：20px；font-size:0.4rem；颜色：rgba(255，255，255，0。03)；字母间距：6px；">
+TGNMOS·2026
+</div>
 
-        // ============================================================
-        // 2. 数据管理 (localStorage)
-        // ============================================================
-        const STORAGE_KEY = 'tgnmos_works_data';
+</div>
 
-        function getDefaultData() {
-            const data = {};
-            WORKS_DATA.forEach(w => {
-                data[w.id] = {
-                    likes: 0,
-                    liked: false,
-                    comments: []
-                };
-            });
-            return data;
-        }
+<！ --=====剧本======-->
+<script>
+(函数(){
+Const overlay=document.getElementById('loading-overlay')；
+常数延迟=1800+math.random()*1400；
 
-        function loadData() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    // 确保所有作品都有数据
-                    let needUpdate = false;
-                    WORKS_DATA.forEach(w => {
-                        if (!parsed[w.id]) {
-                            parsed[w.id] = { likes: 0, liked: false, comments: [] };
-                            needUpdate = true;
-                        }
-                    });
-                    if (needUpdate) {
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+setTimeout(函数(){
+overlay.classList.add('hidden')；
+setTimeout(函数(){
+overlay.style.display='none'；
+}, 900);
+}，延迟)；
+
+console.log('[TGNMOS]延迟服务器已连接·响应时间：'+(delay/1000).toFixed(2)+'s')；
+
+Const progressBar=文件.querySelector('.loader-progress-bar')；
+if(progressBar){
+使色调=45；
+setInterval(函数(){
+if(！overlay.classList.contains('hidden')){
+色调=(色调+0.5)%60；
+Const goldShade='hsl('+(色调+30)+'，90%，55%)'；
+progressBar.style.background='线性梯度(90度，'+goldShade+'，#ffd700)'；
                     }
-                    return parsed;
+}, 120);
+}
+
+setTimeout(函数(){
+ConstatusLabel=document.querySelector('.network-status.label')；
+if(statusLabel){
+常量消息=['·延迟服务器·网络稳定·'，'·延迟32ms·丢包0%·'，'·高速通道·已加密·']；
+设idx=0；
+setInterval(函数(){
+IDX=(idx+1)%msgs.length；
+statusLabel.textContent=msgs[idx]；
+}, 4000);
                 }
-            } catch (e) {
-                console.warn('读取存储失败，使用默认数据', e);
-            }
-            const def = getDefaultData();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(def));
-            return def;
-        }
+}, 2200);
 
-        function saveData(data) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        }
-
-        // ============================================================
-        // 3. 渲染作品卡片
-        // ============================================================
-        const worksData = loadData();
-
-        function renderWorks() {
-            const grid = document.getElementById('worksGrid');
-            grid.innerHTML = '';
-
-            WORKS_DATA.forEach((work, index) => {
-                const card = document.createElement('div');
-                card.className = 'work-card';
-                card.dataset.id = work.id;
-
-                const itemData = worksData[work.id] || { likes: 0, liked: false, comments: [] };
-                const likeCount = itemData.likes || 0;
-                const liked = itemData.liked || false;
-                const comments = itemData.comments || [];
-
-                card.innerHTML = `
-                        <div class="img-box">
-                            <img src="${work.img}" alt="${work.title}" loading="lazy" />
-                        </div>
-                        <div class="info">
-                            <div class="title-row">
-                                <div>
-                                    <h3>${work.title}</h3>
-                                    <div class="desc">${work.desc}</div>
-                                    <span class="tag">${work.tag}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="work-actions">
-                            <div class="like-row">
-                                <button class="like-btn ${liked ? 'liked' : ''}" data-id="${work.id}">
-                                    <svg class="heart-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="${liked ? '#ff6b6b' : 'none'}">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                    </svg>
-                                    <span class="like-count">${likeCount}</span>
-                                </button>
-                                <button class="comment-toggle" data-id="${work.id}">
-                                    <span class="icon">💬</span>
-                                    <span>${comments.length}</span>
-                                </button>
-                            </div>
-                            <div class="comment-section" id="comments-${work.id}">
-                                <div class="comment-list" id="commentList-${work.id}">
-                                    ${comments.length === 0 ? '<div class="no-comments">还没有评论，来说点什么吧 ✨</div>' : ''}
-                                    ${comments.map((c, i) => `
-                                        <div class="comment-item">
-                                            <div class="avatar">${c.name ? c.name.charAt(0).toUpperCase() : 'U'}</div>
-                                            <div class="body">
-                                                <span class="name">${c.name || '匿名'}</span>
-                                                <span>${c.text}</span>
-                                                <span class="time">${c.time || ''}</span>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                                <div class="comment-input-row">
-                                    <input type="text" placeholder="写评论…" class="comment-input" data-id="${work.id}" />
-                                    <button class="comment-submit" data-id="${work.id}">发送</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-                grid.appendChild(card);
-            });
-
-            // 绑定事件
-            bindEvents();
-        }
-
-        // ============================================================
-        // 4. 事件绑定
-        // ============================================================
-        function bindEvents() {
-            // ---- 点赞 ----
-            document.querySelectorAll('.like-btn').forEach(btn => {
-                btn.removeEventListener('click', handleLike);
-                btn.addEventListener('click', handleLike);
-            });
-
-            // ---- 评论切换 ----
-            document.querySelectorAll('.comment-toggle').forEach(toggle => {
-                toggle.removeEventListener('click', handleCommentToggle);
-                toggle.addEventListener('click', handleCommentToggle);
-            });
-
-            // ---- 评论提交 ----
-            document.querySelectorAll('.comment-submit').forEach(submit => {
-                submit.removeEventListener('click', handleCommentSubmit);
-                submit.addEventListener('click', handleCommentSubmit);
-            });
-
-            // ---- 评论输入框回车 ----
-            document.querySelectorAll('.comment-input').forEach(input => {
-                input.removeEventListener('keydown', handleCommentKeydown);
-                input.addEventListener('keydown', handleCommentKeydown);
-            });
-        }
-
-        // ============================================================
-        // 5. 点赞处理
-        // ============================================================
-        function handleLike(e) {
-            const btn = e.currentTarget;
-            const id = btn.dataset.id;
-            const data = worksData[id];
-            if (!data) return;
-
-            data.liked = !data.liked;
-            data.likes += data.liked ? 1 : -1;
-            if (data.likes < 0) data.likes = 0;
-
-            saveData(worksData);
-
-            // 更新UI
-            const countSpan = btn.querySelector('.like-count');
-            const heart = btn.querySelector('.heart-icon');
-            if (countSpan) countSpan.textContent = data.likes;
-            if (data.liked) {
-                btn.classList.add('liked');
-                if (heart) heart.setAttribute('fill', '#ff6b6b');
-            } else {
-                btn.classList.remove('liked');
-                if (heart) heart.setAttribute('fill', 'none');
-            }
-
-            // 微小的触感反馈
-            btn.style.transform = 'scale(0.92)';
-            setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
-        }
-
-        // ============================================================
-        // 6. 评论切换
-        // ============================================================
-        function handleCommentToggle(e) {
-            const btn = e.currentTarget;
-            const id = btn.dataset.id;
-            const section = document.getElementById(`comments-${id}`);
-            if (section) {
-                section.classList.toggle('open');
-                // 如果打开，聚焦输入框
-                if (section.classList.contains('open')) {
-                    const input = section.querySelector('.comment-input');
-                    if (input) setTimeout(() => input.focus(), 100);
-                }
-            }
-        }
-
-        // ============================================================
-        // 7. 评论提交
-        // ============================================================
-        function handleCommentSubmit(e) {
-            const btn = e.currentTarget;
-            const id = btn.dataset.id;
-            const section = document.getElementById(`comments-${id}`);
-            if (!section) return;
-
-            const input = section.querySelector('.comment-input');
-            const text = input.value.trim();
-            if (!text) {
-                input.focus();
-                input.style.borderColor = '#ff6b6b';
-                setTimeout(() => { input.style.borderColor = ''; }, 800);
-                return;
-            }
-
-            const data = worksData[id];
-            if (!data) return;
-
-            const comment = {
-                name: '访客',
-                text: text,
-                time: new Date().toLocaleString('zh-CN', { hour12: false })
-            };
-
-            data.comments.push(comment);
-            saveData(worksData);
-
-            // 更新UI
-            const list = document.getElementById(`commentList-${id}`);
-            if (list) {
-                // 移除"暂无评论"
-                const noComment = list.querySelector('.no-comments');
-                if (noComment) noComment.remove();
-
-                const item = document.createElement('div');
-                item.className = 'comment-item';
-                item.innerHTML = `
-                        <div class="avatar">${comment.name.charAt(0).toUpperCase()}</div>
-                        <div class="body">
-                            <span class="name">${comment.name}</span>
-                            <span>${comment.text}</span>
-                            <span class="time">${comment.time}</span>
-                        </div>
-                    `;
-                list.appendChild(item);
-                list.scrollTop = list.scrollHeight;
-            }
-
-            // 更新评论计数
-            const toggle = document.querySelector(`.comment-toggle[data-id="${id}"]`);
-            if (toggle) {
-                const countSpan = toggle.querySelector('span:last-child');
-                if (countSpan) countSpan.textContent = data.comments.length;
-            }
-
-            input.value = '';
-            input.focus();
-
-            // 动画反馈
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
-        }
-
-        // ============================================================
-        // 8. 评论回车
-        // ============================================================
-        function handleCommentKeydown(e) {
-            if (e.key === 'Enter') {
-                const input = e.currentTarget;
-                const id = input.dataset.id;
-                const submit = document.querySelector(`.comment-submit[data-id="${id}"]`);
-                if (submit) submit.click();
-            }
-        }
-
-        // ============================================================
-        // 9. 视频播放控制
-        // ============================================================
-        function toggleVideo(videoId) {
-            const video = document.getElementById(videoId);
-            if (!video) return;
-            const overlay = video.parentElement.querySelector('.play-overlay');
-
-            if (video.paused) {
-                video.play();
-                if (overlay) overlay.style.opacity = '0';
-            } else {
-                video.pause();
-                if (overlay) overlay.style.opacity = '1';
-            }
-        }
-
-        // 视频结束重置 overlay
-        document.querySelectorAll('video').forEach(v => {
-            v.addEventListener('ended', function() {
-                const overlay = this.parentElement.querySelector('.play-overlay');
-                if (overlay) overlay.style.opacity = '1';
-            });
-            v.addEventListener('play', function() {
-                const overlay = this.parentElement.querySelector('.play-overlay');
-                if (overlay) overlay.style.opacity = '0';
-            });
-            v.addEventListener('pause', function() {
-                const overlay = this.parentElement.querySelector('.play-overlay');
-                if (overlay && this.currentTime > 0 && !this.ended) {
-                    overlay.style.opacity = '1';
-                }
-            });
-        });
-
-        // ============================================================
-        // 10. 导航交互
-//============================================================
-        // 汉堡菜单
-const hamburger=document.getElementById('hamburger')；
-常量navlinks=document.getElementById('navlinks')；
-
-汉堡包。addEventListener('click'，function(){
-this.classList.toggle('active')；
-navLinks.classList.toggle('open')；
-        });
-
-document.querySelectorAll('.nav-links a').forEach(link=>{
-link.addEventListener('click'，()=>{
-hamburger.classList.remove('active')；
-navLinks.classList.remove('open')；
-            });
-        });
-
-        // 滚动高亮
-Const sections=document.querySelectorAll('section[id]')；
-常量navLinkItems=文档.querySelectorAll('.导航链接一个')；
-
-函数updateActiveLink(){
-设current="；
-sections.forEach(section=>{
-const sectionTop=section.offsetTop-120；
-if(window.scrollY>=sectionTop){
-current=section.getAttribute('id')；
-                }
-            });
-navLinkItems.forEach(link=>{
-link.classList.remove('active')；
-if(link.getAttribute('href')==='#'+当前){
-link.classList.add('active')；
-                }
-            });
-        }
-
-window.addEventListener('滚动'，updateActiveLink)；
-window.addEventListener('load'，updateActiveLink)；
-
-        // 平滑滚动
-文件。querySelectorAll('a[href^="#"]').forEach(锚点=>{
-anchor.addEventListener('click'，函数(e){
-Const targetId=this.getAttribute('href')；
-if(targetId==='#')返回；
-Const target=document.querySelector(targetId)；
-if(目标){
-e.preventDefault()；
-target.scrollIntoView({行为：'光滑的'，区块：'开始'})；
-                }
-            });
-        });
-
-//============================================================
-// 11. 初始化
-//============================================================
-renderWorks()；
-
-        // 控制台彩蛋
-console.log('%c✦ TGNMOS Studio ✦'，'font-size:22px；font-weight:bold；color：#e8b84b；')；
-console.log('%c创作者@TGNMOS- 合作|用 ❤️ 构建'，'font-size:14px；color：#b0b0c8；')；
-console.log('%c欢迎合作！点赞&评论功能已开启 ✨'，'font-size:13px；color：#e8b84b；')；
-控制台。日志('%c当前共${WORKS_data.length}件作品，数存赚在localStorage中'，'font-size:12px；color：#6a6a82；')；
+        })();
 </script>
 
 </body>
